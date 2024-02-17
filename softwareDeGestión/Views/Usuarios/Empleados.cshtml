@@ -1,0 +1,43 @@
+﻿@using System.Data
+@model DataTable
+
+@{
+    ViewData["Title"] = "Empleados";
+}
+
+<br />
+<h1>Empleados</h1>
+
+<div>
+
+    <a class="btn bg-primary float-end text-white" asp-controller="Usuarios" asp-action="NuevoEmpleado">Nuevo</a>
+
+    <h4>Lista Empleados</h4>
+    <hr />
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nombres</th>
+                <th scope="col">Apellidos</th>
+                <th scope="col">Teléfono</th>
+                <th scope="col">Dirección</th>
+                <th scope="col">Creación</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (DataRow i in Model.Rows)
+            {
+                <tr>
+                    <th scope="row">@(Model.Rows.Count)</th>
+                    <td>@Convert.ToString(i["nombres_empleado"])</td>
+                    <td>@Convert.ToString(i["apellidos_empleado"])</td>
+                    <td>@Convert.ToString(i["telefono_empleado"])</td>
+                    <td>@Convert.ToString(i["direccion_empleado"])</td>
+                    <td>@Convert.ToString(i["fecha_creacion_empleado"])</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>

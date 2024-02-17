@@ -1,8 +1,32 @@
-﻿@{
+﻿@model softwareDeGestión.Models.Usuarios.Login
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="row">
+
+    @using (Html.BeginForm("Index", "Home", FormMethod.Post))
+    {
+
+        @Html.AntiForgeryToken()
+        <div class="col-md-3 form-horizontal">
+            <br />
+            @Html.TextBoxFor(x => x.Usuario,
+                     new { @class = "form-control", placeholder = "Nombre", autofocus = "autofocus" })
+            @Html.ValidationMessageFor(x => x.Usuario, null, new { @class = "text-danger" })
+            <br />
+            @Html.TextBoxFor(x => x.Contra,
+                     new { @class = "form-control", placeholder = "Apellidos" })
+            @Html.ValidationMessageFor(x => x.Contra, null, new { @class = "text-danger" })
+        </div>
+
+        <div class="col-md-3 form-horizontal">
+
+            <button class="btn btn-primary" type="submit">
+                Enviar datos
+            </button>
+
+        </div>
+
+    }
 </div>

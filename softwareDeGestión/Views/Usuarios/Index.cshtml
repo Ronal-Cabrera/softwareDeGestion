@@ -1,0 +1,47 @@
+﻿@using System.Data
+@model DataTable
+
+@{
+    ViewData["Title"] = "Usuarios";
+}
+
+<br />
+<a class="btn bg-primary float-end text-white" asp-controller="Usuarios" asp-action="Empleados">Lista Empleados</a>
+<h1>Usuarios</h1>
+
+<div>
+
+    <a class="btn bg-primary float-end text-white" asp-controller="Usuarios" asp-action="NuevoUsuario">Nuevo</a>
+
+    <h4>Lista Usuarios</h4>
+    
+    <hr />
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Estadot</th>
+                <th scope="col">Rol</th>
+                <th scope="col">Creación</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (DataRow i in Model.Rows)
+            {
+            <tr>
+                    <th scope="row">@(Model.Rows.Count)</th>
+                    <td>@Convert.ToString(i["nombre_usuario"])</td>
+                    <td>@Convert.ToString(i["estado_usuario"])</td>
+                    <td>@Convert.ToString(i["rol_usuario"])</td>
+                    <td>@Convert.ToString(i["fecha_creacion_usuario"])</td>
+            </tr>
+            }
+        </tbody>
+    </table>
+    
+</div>
+<div>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    <a asp-action="Index">Back to List</a>
+</div>
