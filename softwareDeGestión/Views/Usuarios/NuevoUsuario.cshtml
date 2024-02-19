@@ -8,28 +8,53 @@
 <br />
 <!-- Cuerpo del modal con el formulario -->
 <div class="container shadow p-5">
+
+    <a class="btn bg-primary float-end text-white" asp-controller="Usuarios" asp-action="Index">Regresar</a>
+
     <form asp-controller="Usuarios" asp-action="Guardarusu" method="post">
+
+        
+           
+        
+        <div class="mb-3">
+            <label asp-for="EmpleadoID" class="form-label">Estado</label>
+            <select class="form-control" asp-for="EmpleadoID">
+                <option></option>
+                @foreach (var elemento in ViewBag.MiArray)
+                {
+                    <option value="@elemento[0]">@elemento[1]</option>
+                }
+            </select>
+            <span asp-validation-for="estado_usuario" class="text-danger"></span>
+        </div>
+
         <div class="mb-3">
             <label asp-for="nombre_usuario" class="form-label">Usuario</label>
-            <input asp-for="nombre_usuario" class="form-control" placeholder="Ingrese los nombres">
+            <input asp-for="nombre_usuario" class="form-control" placeholder="Ingrese el usuario">
             <span asp-validation-for="nombre_usuario" class="text-danger"></span>
         </div>
         <div class="mb-3">
             <label asp-for="password_usuario" class="form-label">Contraseña</label>
-            <input asp-for="password_usuario" class="form-control" placeholder="Ingrese los apellidos">
+            <input asp-for="password_usuario" class="form-control" placeholder="Ingrese la contraseña">
             <span asp-validation-for="password_usuario" class="text-danger"></span>
         </div>
         <div class="mb-3">
             <label asp-for="estado_usuario" class="form-label">Estado</label>
-            <input asp-for="estado_usuario" class="form-control" placeholder="Ingrese el teléfono">
+            <select class="form-control"  asp-for="estado_usuario">
+                <option value="Activo">Activo</option>
+                <option value="Inactivo">Inactivo</option>
+            </select>
             <span asp-validation-for="estado_usuario" class="text-danger"></span>
         </div>
         <div class="mb-3">
             <label asp-for="rol_usuario" class="form-label">Rol</label>
-            <input asp-for="rol_usuario" class="form-control" placeholder="Ingrese la dirección">
+            <select class="form-control" asp-for="rol_usuario">
+                <option value="Administrador">Administrador</option>
+                <option value="Empleado">Empleado</option>
+                <option value="Usuario">Usuario</option>
+            </select>
             <span asp-validation-for="rol_usuario" class="text-danger"></span>
         </div>
-
 
         <button type="submit" class="btn btn-primary">Guardar</button>
     </form>

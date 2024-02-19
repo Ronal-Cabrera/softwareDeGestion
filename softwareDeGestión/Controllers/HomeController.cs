@@ -1,9 +1,10 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using softwareDeGestión.Models;
 using softwareDeGestión.Models.Usuarios;
 using System.Diagnostics;
 using System.Reflection;
-//using Microsoft.AspNetCore.Identity;
+
 
 
 namespace softwareDeGestión.Controllers
@@ -12,13 +13,11 @@ namespace softwareDeGestión.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        //private readonly IPasswordHasher<object> _passwordHasher;
-
 
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
-            //_passwordHasher = passwordHasher;
+
         }
 
         Login verificar = new Login();
@@ -31,20 +30,22 @@ namespace softwareDeGestión.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Index(Login datos)
-        {/*
+        {
             if (ModelState.IsValid)
             {
                 string? usuario = datos.Usuario;
-                string? contra = datos.Contra;
+                string contra = datos.Contra ?? string.Empty;
+
+                // Crear una instancia del servicio PasswordHasher
+                IPasswordHasher<object> passwordHasher = new PasswordHasher<object>();
 
 
                 string? respuesta = verificar.VerificarUsuario(usuario);
                 if (respuesta != null)
                 {
-                    var tempObject = new object();
 
                     // Verificar la contraseña encriptada
-                    var resultado = _passwordHasher.VerifyHashedPassword(tempObject, respuesta, contra);
+                    var resultado = passwordHasher.VerifyHashedPassword("", respuesta, contra);
 
                     // El resultado indica si la verificación fue exitosa
                     if (resultado == PasswordVerificationResult.Success)
@@ -54,7 +55,8 @@ namespace softwareDeGestión.Controllers
 
                 }
 
-            }*/
+            }
+
             return View("Index");
         }
 

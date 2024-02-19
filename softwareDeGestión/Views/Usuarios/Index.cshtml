@@ -1,21 +1,26 @@
-﻿@using System.Data
-@model DataTable
+﻿
+@model softwareDeGestión.Models.Usuarios.Usuario
 
 @{
     ViewData["Title"] = "Usuarios";
 }
 
 <br />
-<a class="btn bg-primary float-end text-white" asp-controller="Usuarios" asp-action="Empleados">Lista Empleados</a>
+
+
+
+
+
+<br />
 <h1>Usuarios</h1>
+<a class="btn bg-secondary text-white" asp-controller="Usuarios" asp-action="NuevoUsuario">Nuevo</a>
+<a class="btn bg-secondary text-white" asp-controller="Usuarios" asp-action="Empleados">Lista Empleados</a>
+<a class="btn bg-secondary text-white" asp-controller="Home" asp-action="Privacy">Regresar</a>
+<br />
+<br />
 
-<div>
 
-    <a class="btn bg-primary float-end text-white" asp-controller="Usuarios" asp-action="NuevoUsuario">Nuevo</a>
-
-    <h4>Lista Usuarios</h4>
-    
-    <hr />
+<div class="w-100 bg-white overflow-auto">
     <table class="table table-hover">
         <thead>
             <tr>
@@ -24,24 +29,35 @@
                 <th scope="col">Estadot</th>
                 <th scope="col">Rol</th>
                 <th scope="col">Creación</th>
+                <th style="width:100px;"></th>
+                <th style="width:100px;"></th>
             </tr>
         </thead>
         <tbody>
-            @foreach (DataRow i in Model.Rows)
+            @for (int index = 0; index < ViewBag.DatosTabla1.Count; index++)
             {
-            <tr>
-                    <th scope="row">@(Model.Rows.Count)</th>
-                    <td>@Convert.ToString(i["nombre_usuario"])</td>
-                    <td>@Convert.ToString(i["estado_usuario"])</td>
-                    <td>@Convert.ToString(i["rol_usuario"])</td>
-                    <td>@Convert.ToString(i["fecha_creacion_usuario"])</td>
-            </tr>
+                <tr>
+                    <td>@(index + 1)</td>
+                    <td>@ViewBag.DatosTabla1[index].nombre_usuario</td>
+                    <td>@ViewBag.DatosTabla1[index].estado_usuario</td>
+                    <td>@ViewBag.DatosTabla1[index].rol_usuario</td>
+                    <td>@ViewBag.DatosTabla1[index].fecha_creacion_usuario</td>
+
+                    <td style="width:100px;">
+                        <a href="@Url.Action("EditarUsuario", "Usuarios", new { id = ViewBag.DatosTabla1[index].codigo_usuario })" class="btn btn-success">Editar</a>
+                    </td>
+
+                    <td style="width:100px;">
+                        <form asp-action="Eliminarusu" asp-controller="Usuarios" method="post">
+                            <input type="hidden" name="id" value="@ViewBag.DatosTabla1[index].codigo_usuario" />
+                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                        </form>
+                    </td>
+                </tr>
             }
+
         </tbody>
     </table>
     
 </div>
-<div>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    <a asp-action="Index">Back to List</a>
-</div>
+

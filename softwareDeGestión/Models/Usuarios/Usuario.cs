@@ -4,9 +4,12 @@ namespace softwareDeGestión.Models.Usuarios
 {
     public class Usuario
     {
+       
         public Usuario()
         {
         }
+
+        public int? codigo_usuario { get; set; }
 
         [Required(ErrorMessage = "Empleado es requerido")]
         public int? EmpleadoID { get; set; }

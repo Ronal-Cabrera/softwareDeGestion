@@ -1,7 +1,7 @@
 ﻿@model softwareDeGestión.Models.Usuarios.Empleados
 
 @{
-    ViewData["Title"] = "Nuevo Empleado";
+    ViewData["Title"] = "Editar Empleado";
 }
 
 <br />
@@ -9,29 +9,27 @@
 
 <!-- Cuerpo del modal con el formulario -->
 <div class="container shadow p-5 bg-white">
-    <div class="h-auto">
-    
-    </div>
-
-    <form asp-controller="Usuarios" asp-action="Guardaremp" method="post">
+    <h3 class="text-center">Editar</h3>
+    <form asp-controller="Usuarios" asp-action="Guardarupdateemp" method="post">
+        <input type="hidden" value="@ViewBag.MiArray[0][0]" asp-for="EmpledoID" />
         <div class="mb-3">
             <label asp-for="nombres_empleado" class="form-label">Nombres</label>
-            <input asp-for="nombres_empleado" class="form-control" placeholder="Ingrese los nombres">
+            <input asp-for="nombres_empleado" class="form-control" value="@ViewBag.MiArray[0][1]" placeholder="Ingrese los nombres">
             <span asp-validation-for="nombres_empleado" class="text-danger"></span>
         </div>
         <div class="mb-3">
             <label asp-for="apellidos_empleado" class="form-label">Apellidos</label>
-            <input asp-for="apellidos_empleado" class="form-control" placeholder="Ingrese los apellidos">
+            <input asp-for="apellidos_empleado" class="form-control" value="@ViewBag.MiArray[0][2]" placeholder="Ingrese los apellidos">
             <span asp-validation-for="apellidos_empleado" class="text-danger"></span>
         </div>
         <div class="mb-3">
             <label asp-for="telefono_empleado" class="form-label">Teléfono</label>
-            <input asp-for="telefono_empleado" class="form-control" placeholder="Ingrese el teléfono">
+            <input asp-for="telefono_empleado" class="form-control" value="@ViewBag.MiArray[0][3]" placeholder="Ingrese el teléfono">
             <span asp-validation-for="telefono_empleado" class="text-danger"></span>
         </div>
         <div class="mb-3">
             <label asp-for="direccion_empleado" class="form-label">Dirección</label>
-            <input asp-for="direccion_empleado" class="form-control" placeholder="Ingrese la dirección">
+            <input asp-for="direccion_empleado" class="form-control" value="@ViewBag.MiArray[0][4]" placeholder="Ingrese la dirección">
             <span asp-validation-for="direccion_empleado" class="text-danger"></span>
         </div>
 
@@ -39,5 +37,4 @@
         <button type="submit" class="btn btn-primary">Guardar</button>
         <a class="btn bg-secondary float-end text-white" asp-controller="Usuarios" asp-action="Empleados">Regresar</a>
     </form>
-    
 </div>

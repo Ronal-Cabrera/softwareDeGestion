@@ -7,14 +7,13 @@
 
 <br />
 <h1>Empleados</h1>
+<a class="btn bg-secondary text-white" asp-controller="Usuarios" asp-action="NuevoEmpleado">Nuevo</a>
+<a class="btn bg-secondary text-white" asp-controller="Usuarios" asp-action="Index">Usuarios</a>
+<br /><br />
 
-<div>
+<div class="bg-white overflow-auto">
 
-    <a class="btn bg-primary float-end text-white" asp-controller="Usuarios" asp-action="NuevoEmpleado">Nuevo</a>
-
-    <h4>Lista Empleados</h4>
-    <hr />
-    <table class="table table-hover">
+    <table class="table w-100 table-hover">
         <thead>
             <tr>
                 <th scope="col">#</th>
@@ -23,20 +22,35 @@
                 <th scope="col">Teléfono</th>
                 <th scope="col">Dirección</th>
                 <th scope="col">Creación</th>
+                <th style="width:100px;"></th>
+                <th style="width:100px;"></th>
             </tr>
         </thead>
         <tbody>
-            @foreach (DataRow i in Model.Rows)
+            @for (int index = 0; index < Model.Rows.Count; index++)
             {
                 <tr>
-                    <th scope="row">@(Model.Rows.Count)</th>
-                    <td>@Convert.ToString(i["nombres_empleado"])</td>
-                    <td>@Convert.ToString(i["apellidos_empleado"])</td>
-                    <td>@Convert.ToString(i["telefono_empleado"])</td>
-                    <td>@Convert.ToString(i["direccion_empleado"])</td>
-                    <td>@Convert.ToString(i["fecha_creacion_empleado"])</td>
+                    <th scope="row">@(index + 1)</th>
+                    <td>@Convert.ToString(Model.Rows[index]["nombres_empleado"])</td>
+                    <td>@Convert.ToString(Model.Rows[index]["apellidos_empleado"])</td>
+                    <td>@Convert.ToString(Model.Rows[index]["telefono_empleado"])</td>
+                    <td>@Convert.ToString(Model.Rows[index]["direccion_empleado"])</td>
+                    <td>@Convert.ToString(Model.Rows[index]["fecha_creacion_empleado"])</td>
+
+                    <td style="width:100px;">
+                        <a href="@Url.Action("EditarEmpleado", "Usuarios", new { id = Model.Rows[index]["EmpleadoID"] })" class="btn btn-success">Editar</a>
+                    </td>
+                    <td style="width:100px;">
+                        <form asp-action="Eliminaremp" asp-controller="Usuarios" method="post">
+                            <input type="hidden" name="id" value="@Model.Rows[index]["EmpleadoID"]" />
+                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                        </form>
+                    </td>
+                    
+
                 </tr>
             }
+
         </tbody>
     </table>
 

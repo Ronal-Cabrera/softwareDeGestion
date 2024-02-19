@@ -8,6 +8,8 @@ namespace softwareDeGestión.Models.Usuarios
         {
         }
 
+        public int? EmpledoID {  get; set; } 
+
         [Required(ErrorMessage = "Nombres es requerido")]
         [StringLength(30, ErrorMessage = "Logitud máxima 30")]
         public string? nombres_empleado { get; set; }

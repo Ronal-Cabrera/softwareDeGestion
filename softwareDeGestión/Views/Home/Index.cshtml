@@ -3,27 +3,27 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="row">
+<div class="container p-5 my-5 shadow bg-white" style="width:500px;">
 
     @using (Html.BeginForm("Index", "Home", FormMethod.Post))
     {
-
+        <h3 class="text-center">LOGIN</h3>
         @Html.AntiForgeryToken()
-        <div class="col-md-3 form-horizontal">
+        <div class="col-md-3 w-100 form-horizontal mb-4">
             <br />
             @Html.TextBoxFor(x => x.Usuario,
-                     new { @class = "form-control", placeholder = "Nombre", autofocus = "autofocus" })
+                     new { @class = "form-control w-100", placeholder = "Ingrese Usuario.", autofocus = "autofocus" })
             @Html.ValidationMessageFor(x => x.Usuario, null, new { @class = "text-danger" })
             <br />
-            @Html.TextBoxFor(x => x.Contra,
-                     new { @class = "form-control", placeholder = "Apellidos" })
+            @Html.PasswordFor(x => x.Contra,
+                     new { @class = "form-control w-100", placeholder = "Ingrese Contraseña." })
             @Html.ValidationMessageFor(x => x.Contra, null, new { @class = "text-danger" })
         </div>
 
-        <div class="col-md-3 form-horizontal">
+        <div class="col-md-3 w-100 form-horizontal">
 
             <button class="btn btn-primary" type="submit">
-                Enviar datos
+                Verificar
             </button>
 
         </div>
