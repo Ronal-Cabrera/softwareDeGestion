@@ -6,6 +6,10 @@ using System.Diagnostics;
 using System.Reflection;
 
 
+using Microsoft.AspNetCore.Http;
+
+
+
 
 namespace softwareDeGestión.Controllers
 {
@@ -14,10 +18,12 @@ namespace softwareDeGestión.Controllers
         private readonly ILogger<HomeController> _logger;
 
 
-        public HomeController(ILogger<HomeController> logger)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+
+        public HomeController(ILogger<HomeController> logger, IHttpContextAccessor httpContextAccessor)
         {
             _logger = logger;
-
+            _httpContextAccessor = httpContextAccessor;
         }
 
         Login verificar = new Login();
@@ -33,7 +39,7 @@ namespace softwareDeGestión.Controllers
         {
             if (ModelState.IsValid)
             {
-                string? usuario = datos.Usuario;
+                string? usuario = datos.Usuario ?? string.Empty;
                 string contra = datos.Contra ?? string.Empty;
 
                 // Crear una instancia del servicio PasswordHasher
@@ -50,6 +56,10 @@ namespace softwareDeGestión.Controllers
                     // El resultado indica si la verificación fue exitosa
                     if (resultado == PasswordVerificationResult.Success)
                     {
+                        if (_httpContextAccessor.HttpContext != null)
+                        {
+                            _httpContextAccessor.HttpContext.Session.SetString("UsuarioActual", usuario);
+                        }
                         return RedirectToAction("Privacy", "Home");
                     }
 
@@ -60,8 +70,28 @@ namespace softwareDeGestión.Controllers
             return View("Index");
         }
 
+        public IActionResult CerrarSesion()
+        {
+            if (_httpContextAccessor.HttpContext != null)
+            {
+                // Eliminar la variable de sesión
+                _httpContextAccessor.HttpContext.Session.Remove("UsuarioActual");
+            }
+
+            return RedirectToAction("Privacy", "Home");
+        }
+
+
         public IActionResult Privacy()
         {
+            if (_httpContextAccessor.HttpContext != null)
+            {
+                // Recuperar el nombre de usuario de la sesión
+                string? usuarioActual = _httpContextAccessor.HttpContext.Session.GetString("UsuarioActual");
+                ViewData["UsuarioActual"] = usuarioActual;
+            }
+
+            
             return View();
         }
 

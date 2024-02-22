@@ -4,6 +4,20 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 
+
+
+
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(2); // Duración de la sesión
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
+// Agregar IHttpContextAccessor
+builder.Services.AddHttpContextAccessor();
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -18,6 +32,13 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+
+
+// Agregar soporte para sesión
+app.UseSession();
+
+
 
 app.UseAuthorization();
 

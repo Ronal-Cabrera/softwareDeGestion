@@ -5,7 +5,6 @@ namespace softwareDeGestión.Models.Usuarios
 {
     public class Login
     {
-
         public Login()
         {
 

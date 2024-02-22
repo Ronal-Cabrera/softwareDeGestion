@@ -4,3 +4,14 @@
 <h1>@ViewData["Title"]</h1>
 
 <p>Use this page to detail your site's privacy policy.</p>
+
+        @if (ViewData["UsuarioActual"] != null)
+        {
+            <p>Bienvenido, @ViewData["UsuarioActual"]</p>
+        }
+        else
+        {
+            <p>No hay usuario actual.</p>
+        }
+
+<a asp-action="CerrarSesion" asp-controller="Home">Cerrar session</a>

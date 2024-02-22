@@ -30,9 +30,7 @@ namespace softwareDeGestión.Controllers
 
         public IActionResult Index()
         {
-
             var resultados = new List<Usuario>();
-
             try
             {
                 string query = "select * from usuarios";
