@@ -82,6 +82,10 @@ namespace softwareDeGestión.Controllers
         }
 
 
+
+
+
+
         public IActionResult Privacy()
         {
             if (_httpContextAccessor.HttpContext != null)
@@ -94,6 +98,9 @@ namespace softwareDeGestión.Controllers
             
             return View();
         }
+
+
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

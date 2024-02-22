@@ -9,29 +9,29 @@
 
 <!-- Cuerpo del modal con el formulario -->
 <div class="container shadow p-5 bg-white">
-    <div class="h-auto">
     
-    </div>
+    <h3>Nuevo Empleado</h3>
 
     <form asp-controller="Usuarios" asp-action="Guardaremp" method="post">
         <div class="mb-3">
             <label asp-for="nombres_empleado" class="form-label">Nombres</label>
-            <input asp-for="nombres_empleado" class="form-control" placeholder="Ingrese los nombres">
+            <input asp-for="nombres_empleado" class="form-control" placeholder="Ingrese los nombres" required>
             <span asp-validation-for="nombres_empleado" class="text-danger"></span>
+
         </div>
         <div class="mb-3">
             <label asp-for="apellidos_empleado" class="form-label">Apellidos</label>
-            <input asp-for="apellidos_empleado" class="form-control" placeholder="Ingrese los apellidos">
+            <input asp-for="apellidos_empleado" class="form-control" placeholder="Ingrese los apellidos" required>
             <span asp-validation-for="apellidos_empleado" class="text-danger"></span>
         </div>
         <div class="mb-3">
             <label asp-for="telefono_empleado" class="form-label">Teléfono</label>
-            <input asp-for="telefono_empleado" class="form-control" placeholder="Ingrese el teléfono">
+            <input asp-for="telefono_empleado" class="form-control" placeholder="Ingrese el teléfono" required>
             <span asp-validation-for="telefono_empleado" class="text-danger"></span>
         </div>
         <div class="mb-3">
             <label asp-for="direccion_empleado" class="form-label">Dirección</label>
-            <input asp-for="direccion_empleado" class="form-control" placeholder="Ingrese la dirección">
+            <input asp-for="direccion_empleado" class="form-control" placeholder="Ingrese la dirección" required>
             <span asp-validation-for="direccion_empleado" class="text-danger"></span>
         </div>
 

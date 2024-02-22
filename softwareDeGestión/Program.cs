@@ -9,7 +9,7 @@ builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromMinutes(2); // Duración de la sesión
+    options.IdleTimeout = TimeSpan.FromMinutes(20); // Duración de la sesión
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });

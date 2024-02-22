@@ -7,17 +7,13 @@
 <br />
 <br />
 <!-- Cuerpo del modal con el formulario -->
-<div class="container shadow p-5">
+<div class="container bg-white shadow p-5">
 
-    <a class="btn bg-primary float-end text-white" asp-controller="Usuarios" asp-action="Index">Regresar</a>
-
-    <form asp-controller="Usuarios" asp-action="Guardarusu" method="post">
-
-        
-           
+    <h3>Nuevo Usuario</h3>
+    <form asp-controller="Usuarios" asp-action="Guardarusu" method="post">    
         
         <div class="mb-3">
-            <label asp-for="EmpleadoID" class="form-label">Estado</label>
+            <label asp-for="EmpleadoID" class="form-label">Empleado</label>
             <select class="form-control" asp-for="EmpleadoID">
                 <option></option>
                 @foreach (var elemento in ViewBag.MiArray)
@@ -57,5 +53,6 @@
         </div>
 
         <button type="submit" class="btn btn-primary">Guardar</button>
+        <a class="btn bg-secondary float-end text-white" asp-controller="Usuarios" asp-action="Index">Regresar</a>
     </form>
 </div>

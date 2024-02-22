@@ -20,7 +20,8 @@ namespace softwareDeGestión.Models.Usuarios
 
 
         [Required(ErrorMessage = "Teléfono es requerido")]
-        [StringLength(30, ErrorMessage = "Logitud máxima 30")]
+        [StringLength(8, ErrorMessage = "Logitud máxima 8")]
+        [Phone(ErrorMessage = "El formato del teléfono no es válido")]
         public string? telefono_empleado { get; set; }
 
         [Required(ErrorMessage = "Dirección es requerido")]
