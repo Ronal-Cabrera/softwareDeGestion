@@ -6,6 +6,7 @@ using softwareDeGestión.Models.Usuarios;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 using Microsoft.AspNetCore.Identity;
 
+
 namespace softwareDeGestión.Controllers
 {
 
@@ -28,12 +29,45 @@ namespace softwareDeGestión.Controllers
         //Cargar vista y lista Usuarios
         //-------------------//-----------------------//
 
-        public IActionResult Index()
+        public IActionResult Index(int? pagina)
         {
+            
+            int numeroDePagina = pagina ?? 1;
+            int registrosPorPagina = 5, totalPaginas = 0, total = 0;
+            
+
+
             var resultados = new List<Usuario>();
             try
             {
-                string query = "select * from usuarios";
+
+                string queryTotal = "select COUNT(*) as total from usuarios";
+                conectar.InicioConexion();
+                SqlCommand comando2 = new SqlCommand(queryTotal, conectar.conectar);
+                using (SqlDataReader reader = comando2.ExecuteReader())
+                {
+                    reader.Read();
+                    total = Convert.ToInt32(reader["total"]);
+                }
+                conectar.InicioDesconexion();
+
+                
+                if (total > registrosPorPagina)
+                {
+                    /////total paginas
+                    double numero_total_productos = total;
+                    double resultado_divicion = numero_total_productos / 5.0;
+                    double resultadoRedondeado = Math.Ceiling(resultado_divicion);
+                    totalPaginas = (int)resultadoRedondeado;
+                }
+                else
+                {
+                    totalPaginas = 1;
+                }
+                
+                int? indicador_fila = registrosPorPagina * (numeroDePagina - 1);
+                
+                string query = "SELECT * FROM usuarios ORDER BY codigo_usuario OFFSET "+ indicador_fila + " ROWS FETCH NEXT "+ registrosPorPagina + " ROWS ONLY";
                 conectar.InicioConexion();
                 SqlCommand comando = new SqlCommand(query, conectar.conectar);
 
@@ -53,40 +87,18 @@ namespace softwareDeGestión.Controllers
                         };
 
                         resultados.Add(fila);
+                        Console.WriteLine(fila);
                     }
                 }
 
                 conectar.InicioDesconexion();
                 ViewBag.DatosTabla1 = resultados;
+
+                ViewBag.PaginaActual = numeroDePagina;
+                ViewBag.TotalPaginas = totalPaginas;
+
+
                 return View();
-            }
-            catch (Exception)
-            {
-                return View();
-            }
-        }
-
-        //--------------------//-----------------------//
-        //Cargar vista y lista Empleados
-        //-------------------//-----------------------//
-        public IActionResult Empleados()
-        {
-            try
-            {
-                string query = "select * from empleados";
-                conectar.InicioConexion();
-
-                SqlCommand comando = new SqlCommand(query, conectar.conectar);
-                SqlDataAdapter informacionPE = new SqlDataAdapter();
-                informacionPE.SelectCommand = comando;
-
-                DataTable tablaPE = new DataTable();
-                informacionPE.Fill(tablaPE);
-
-
-                conectar.InicioDesconexion();
-
-                return View(tablaPE);
             }
             catch (Exception)
             {
@@ -259,6 +271,64 @@ namespace softwareDeGestión.Controllers
 
 
 
+        //--------------------//-----------------------//
+        //Cargar vista y lista Empleados
+        //-------------------//-----------------------//
+        public IActionResult Empleados(int? pagina)
+        {
+            int numeroDePagina = pagina ?? 1;
+            int registrosPorPagina = 5, totalPaginas = 0, total = 0;
+
+            try { 
+            string queryTotal = "select COUNT(*) as total from empleados";
+            conectar.InicioConexion();
+            SqlCommand comando2 = new SqlCommand(queryTotal, conectar.conectar);
+            using (SqlDataReader reader = comando2.ExecuteReader())
+            {
+                reader.Read();
+                total = Convert.ToInt32(reader["total"]);
+            }
+            conectar.InicioDesconexion();
+
+
+            if (total > registrosPorPagina)
+            {
+                /////total paginas
+                double numero_total_productos = total;
+                double resultado_divicion = numero_total_productos / 5.0;
+                double resultadoRedondeado = Math.Ceiling(resultado_divicion);
+                totalPaginas = (int)resultadoRedondeado;
+            }
+            else
+            {
+                totalPaginas = 1;
+            }
+
+            int? indicador_fila = registrosPorPagina * (numeroDePagina - 1);
+
+            string query = "SELECT * FROM empleados ORDER BY EmpleadoID OFFSET " + indicador_fila + " ROWS FETCH NEXT " + registrosPorPagina + " ROWS ONLY";
+
+            conectar.InicioConexion();
+
+                SqlCommand comando = new SqlCommand(query, conectar.conectar);
+                SqlDataAdapter informacionPE = new SqlDataAdapter();
+                informacionPE.SelectCommand = comando;
+
+                DataTable tablaPE = new DataTable();
+                informacionPE.Fill(tablaPE);
+
+
+                conectar.InicioDesconexion();
+                ViewBag.PaginaActual = numeroDePagina;
+                ViewBag.TotalPaginas = totalPaginas;
+
+                return View(tablaPE);
+            }
+            catch (Exception)
+            {
+                return View();
+            }
+        }
 
 
         //--------------------//-----------------------//
@@ -367,6 +437,7 @@ namespace softwareDeGestión.Controllers
         //-------------------//-----------------------//
         public IActionResult EditarUsuario(int id)
         {
+
             List<List<string>> miArrayUE = new List<List<string>>();
 
             conectar.InicioConexion();
