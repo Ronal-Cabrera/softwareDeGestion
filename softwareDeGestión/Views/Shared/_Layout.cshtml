@@ -7,10 +7,38 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/softwareDeGestión.styles.css" asp-append-version="true" />
+
+    <style>
+        .tablas{
+            position: fixed;
+            top: 160px;
+            left: 0;
+            right: 0;
+            bottom: 100px;
+        }
+
+        .pag{
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 65px;
+            padding: 0 10px;
+        }
+        
+        .pag_a{
+            background-color: white;
+            padding: 2px 6px;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+    </style>
+
 </head>
 <body style="background-color: #ecebeb;">
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+     @if (ViewData["UsuarioActual"] != null)
+    {
+        <header>
+            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">softwareDeGestión</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -23,10 +51,7 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">INICIO</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">REGISTROS</a>
-                        </li>
-                        <li class="nav-item d-flex">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Usuarios" asp-action="Index">USUARIOS</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                         <li class="nav-item d-flex">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Usuarios" asp-action="Empleados">EMPLEADOS</a>
@@ -36,15 +61,17 @@
             </div>
         </nav>
     </header>
+    }
+
     <div class="container-fluid">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted fixed-bottom p-3">
+    <footer class="border-top footer text-muted fixed-bottom p-3" style="line-height: 22px;">
         <div class="container">
-            &copy; 2024 - softwareDeGestión - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2024 - softwareDeGestión
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

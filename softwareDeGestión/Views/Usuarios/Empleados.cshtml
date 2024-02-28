@@ -5,13 +5,31 @@
     ViewData["Title"] = "Empleados";
 }
 
+
+<div class="pager-container pag">
+    <span class="px-2">Página @ViewBag.PaginaActual de @ViewBag.TotalPaginas</span>
+    @if (ViewBag.PaginaActual > 1)
+    {
+        <a class="pag_a" href="@Url.Action("Empleados", new { @class="pag_a", pagina = ViewBag.PaginaActual - 1 })">Anterior</a>
+    }
+    @for (int i = 1; i <= ViewBag.TotalPaginas; i++)
+    {
+        <a class="pag_a" href="@Url.Action("Empleados", new { @class="pag_a", pagina = i })">@i</a>
+    }
+    @if (ViewBag.PaginaActual < ViewBag.TotalPaginas)
+    {
+        <a class="pag_a" href="@Url.Action("Empleados", new { pagina = ViewBag.PaginaActual + 1 })">Siguiente</a>
+    }
+</div>
+
+
 <br />
 <h1>Empleados</h1>
 <a class="btn bg-secondary text-white" asp-controller="Usuarios" asp-action="NuevoEmpleado">Nuevo</a>
 <a class="btn bg-secondary text-white" asp-controller="Usuarios" asp-action="Index">Ver Usuarios</a>
 <br /><br />
 
-<div class="bg-white overflow-auto">
+<div class="tablas bg-white overflow-auto">
 
     <table class="table w-100 table-hover">
         <thead>

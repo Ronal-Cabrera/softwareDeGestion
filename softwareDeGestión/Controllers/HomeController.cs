@@ -60,7 +60,7 @@ namespace softwareDeGestión.Controllers
                         {
                             _httpContextAccessor.HttpContext.Session.SetString("UsuarioActual", usuario);
                         }
-                        return RedirectToAction("Privacy", "Home");
+                        return RedirectToAction("Dashboard", "Home");
                     }
 
                 }
@@ -78,7 +78,7 @@ namespace softwareDeGestión.Controllers
                 _httpContextAccessor.HttpContext.Session.Remove("UsuarioActual");
             }
 
-            return RedirectToAction("Privacy", "Home");
+            return RedirectToAction("Dashboard", "Home");
         }
 
 
@@ -86,7 +86,7 @@ namespace softwareDeGestión.Controllers
 
 
 
-        public IActionResult Privacy()
+        public IActionResult Dashboard()
         {
             if (_httpContextAccessor.HttpContext != null)
             {
