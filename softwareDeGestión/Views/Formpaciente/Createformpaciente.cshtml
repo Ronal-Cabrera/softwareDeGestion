@@ -1,0 +1,61 @@
+﻿@using System.Data
+@model DataTable
+
+@{
+    ViewData["Title"] = "Empleados";
+}
+
+<br />
+<h1>Empleados</h1>
+<a class="btn bg-secondary text-white" asp-controller="Formpaciente" asp-action="Createformpaciente">Nuevo</a>
+<a class="btn bg-secondary text-white" asp-controller="Formpaciente" asp-action="Verpacientes">Ver registros</a>
+<br />
+<br />
+
+<div class="bg-white overflow-auto">
+
+    <table class="table w-100 table-hover">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">PACIENTE</th>
+                <th scope="col">FECHA</th>
+                <th scope="col">PESO</th>
+                <th scope="col">ALTURA</th>
+                <th scope="col">TIPO DIABETES</th>
+                <th scope="col">PRESION ARTERIAL</th>
+                <th scope="col">ANTECEDENTES FAMILIARES</th>
+                <th scope="col">OTROS ANTECEDENTES</th>
+                <th style="width:100px;"></th>
+                <th style="width:100px;"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int index = 0; index < Model.Rows.Count; index++)
+            {
+                <tr>
+                    <th scope="row">@(index + 1)</th>
+                    <td>@Convert.ToString(Model.Rows[index]["nombres_empleado"])</td>
+                    <td>@Convert.ToString(Model.Rows[index]["apellidos_empleado"])</td>
+                    <td>@Convert.ToString(Model.Rows[index]["telefono_empleado"])</td>
+                    <td>@Convert.ToString(Model.Rows[index]["direccion_empleado"])</td>
+                    <td>@Convert.ToString(Model.Rows[index]["fecha_creacion_empleado"])</td>
+
+                    <td style="width:100px;">
+                        <a href="@Url.Action("EditarEmpleado", "Usuarios", new { id = Model.Rows[index]["EmpleadoID"] })" class="btn btn-success">Editar</a>
+                    </td>
+                    <td style="width:100px;">
+                        <form asp-action="Eliminaremp" asp-controller="Usuarios" method="post">
+                            <input type="hidden" name="id" value="@Model.Rows[index]["EmpleadoID"]" />
+                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                        </form>
+                    </td>
+
+
+                </tr>
+            }
+
+        </tbody>
+    </table>
+
+</div>

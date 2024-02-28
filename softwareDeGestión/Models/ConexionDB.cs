@@ -4,10 +4,15 @@ namespace softwareDeGestión.Models
 {
     public class ConexionDB
     {
-        string servidor = "LAPTOP-5ICDT4FV";
-        string baseDatos = "ProyectU";  //name base de datos
-        string usuario = "Administrador";
-        string contra = "Administrador";
+        //string servidor = "LAPTOP-5ICDT4FV";
+        //string baseDatos = "ProyectU";  //name base de datos
+        //string usuario = "Administrador";
+        //string contra = "Administrador";
+
+        string servidor = "DANIELPEREZ";
+        string baseDatos = "SDIABETES";  //name base de datos
+        string usuario = "sa";
+        string contra = "d@niel12";
 
         //Variables
         string conexion = "";
