@@ -380,9 +380,10 @@ namespace softwareDeGestión.Controllers
                 {
                     string plainPassword = datos.password_usuario ?? string.Empty;
                     // Crear una instancia del servicio PasswordHasher
-                    IPasswordHasher<object> passwordHasher = new PasswordHasher<object>();
+                    //IPasswordHasher<object> passwordHasher = new PasswordHasher<object>();
                     // Encriptar la contraseña
-                    string hashedPassword = passwordHasher.HashPassword("", plainPassword);
+                    //string hashedPassword = passwordHasher.HashPassword("", plainPassword);
+                    string hashedPassword = BCrypt.Net.BCrypt.HashPassword(plainPassword, BCrypt.Net.BCrypt.GenerateSalt());
 
                     DateTime fechaActual = DateTime.Now;
                     string query = "INSERT INTO usuarios (EmpleadoID, nombre_usuario, password_usuario, estado_usuario, rol_usuario, fecha_creacion_usuario) VALUES (@EmpleadoID, @usuario, @contra, @estado, @rol, @fecha)";
@@ -552,10 +553,10 @@ namespace softwareDeGestión.Controllers
                 {
                     string plainPassword = cambio ?? string.Empty;
                     // Crear una instancia del servicio PasswordHasher
-                    IPasswordHasher<object> passwordHasher = new PasswordHasher<object>();
+                    //IPasswordHasher<object> passwordHasher = new PasswordHasher<object>();
                     // Encriptar la contraseña
-                    string hashedPassword = passwordHasher.HashPassword("", plainPassword);
-
+                    //string hashedPassword = passwordHasher.HashPassword("", plainPassword);
+                    string hashedPassword = BCrypt.Net.BCrypt.HashPassword(plainPassword, BCrypt.Net.BCrypt.GenerateSalt());
 
                     string query = "UPDATE usuarios SET password_usuario = @cambio WHERE codigo_usuario = @id";
 
