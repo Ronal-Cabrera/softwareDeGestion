@@ -28,7 +28,6 @@ namespace softwareDeGestión.Models.Usuarios
         [StringLength(10, ErrorMessage = "Logitud máxima 10")]
         public string? direccion_empleado { get; set; }
 
-
         public string? fecha_creacion_empleado { get; set; }
     }
 }
