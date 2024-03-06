@@ -47,14 +47,17 @@ namespace softwareDeGestión.Controllers
 
 
                 string? respuesta = verificar.VerificarUsuario(usuario);
+
                 if (respuesta != null)
                 {
 
                     // Verificar la contraseña encriptada
-                    var resultado = passwordHasher.VerifyHashedPassword("", respuesta, contra);
+                    //var resultado = passwordHasher.VerifyHashedPassword("", respuesta, contra);
+                    // Verificación de contraseñas
+                    bool isPasswordValid = BCrypt.Net.BCrypt.Verify(contra, respuesta);
 
                     // El resultado indica si la verificación fue exitosa
-                    if (resultado == PasswordVerificationResult.Success)
+                    if (isPasswordValid)
                     {
                         if (_httpContextAccessor.HttpContext != null)
                         {
@@ -78,7 +81,7 @@ namespace softwareDeGestión.Controllers
                 _httpContextAccessor.HttpContext.Session.Remove("UsuarioActual");
             }
 
-            return RedirectToAction("Dashboard", "Home");
+            return RedirectToAction("Index", "Home");
         }
 
 

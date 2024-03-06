@@ -51,10 +51,13 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">INICIO</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Dashboard">Dashboard</a>
                         </li>
+                        <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="DetallesVistas" asp-action="Medicamentos">Medicamentos</a>
+                            </li>
                         <li class="nav-item d-flex">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Usuarios" asp-action="Empleados">EMPLEADOS</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Usuarios" asp-action="Index">Usuarios</a>
                         </li>
                     </ul>
                 </div>
@@ -70,8 +73,8 @@
     </div>
 
     <footer class="border-top footer text-muted fixed-bottom p-3" style="line-height: 22px;">
-        <div class="container">
-            &copy; 2024 - softwareDeGestión
+        <div class="container-fluid">
+            <p class="text-center">&copy; 2024 - softwareDeGestión</p>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
