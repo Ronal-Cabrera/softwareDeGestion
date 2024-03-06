@@ -1,0 +1,75 @@
+﻿@using System.Data
+@model DataTable
+
+@{
+    ViewData["Title"] = "Medicamentos";
+}
+
+
+<div class="pager-container pag">
+    <span class="px-2">Página @ViewBag.PaginaActual de @ViewBag.TotalPaginas</span>
+    @if (ViewBag.PaginaActual > 1)
+    {
+        <a class="pag_a" href="@Url.Action("Medicamentos", new { @class="pag_a", pagina = ViewBag.PaginaActual - 1 })">Anterior</a>
+    }
+    @for (int i = 1; i <= ViewBag.TotalPaginas; i++)
+    {
+        <a class="pag_a" href="@Url.Action("Medicamentos", new { @class="pag_a", pagina = i })">@i</a>
+    }
+    @if (ViewBag.PaginaActual < ViewBag.TotalPaginas)
+    {
+        <a class="pag_a" href="@Url.Action("Medicamentos", new { pagina = ViewBag.PaginaActual + 1 })">Siguiente</a>
+    }
+</div>
+
+
+<br />
+<h1>Medicamentos</h1>
+<a class="btn bg-secondary text-white" asp-controller="DetallesVistas" asp-action="NuevoMedicamento">Nuevo</a>
+<!--<a class="btn bg-secondary text-white" asp-controller="Usuarios" asp-action="Index">Ver Usuarios</a>-->
+<br />
+<br />
+
+<div class="tablas bg-white overflow-auto">
+
+    <table class="table w-100 table-hover">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nombre Medicamento</th>
+                <th scope="col">Descripcion Medicamento</th>
+                <th scope="col">Instrucciones Uso</th>
+                <th scope="col">Efectos Secundarios</th>
+
+                <th style="width:100px;"></th>
+                <th style="width:100px;"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int index = 0; index < Model.Rows.Count; index++)
+            {
+                <tr>
+                    <th scope="row">@(index + 1)</th>
+                    <td>@Convert.ToString(Model.Rows[index]["NombreMedicamento"])</td>
+                    <td>@Convert.ToString(Model.Rows[index]["DescripcionMedicamento"])</td>
+                    <td>@Convert.ToString(Model.Rows[index]["InstruccionesUso"])</td>
+                    <td>@Convert.ToString(Model.Rows[index]["EfectosSecundarios"])</td>
+
+                    <td style="width:100px;">
+                        <a href="@Url.Action("EditarMedicamento", "DetallesVistas", new { id = Model.Rows[index]["MedicamentoID"] })" class="btn btn-success">Editar</a>
+                    </td>
+                    <td style="width:100px;">
+                        <form asp-action="Eliminarme" asp-controller="DetallesVistas" method="post">
+                            <input type="hidden" name="id" value="@Model.Rows[index]["MedicamentoID"]" />
+                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                        </form>
+                    </td>
+
+
+                </tr>
+            }
+
+        </tbody>
+    </table>
+
+</div>

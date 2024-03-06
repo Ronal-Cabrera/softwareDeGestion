@@ -1,0 +1,40 @@
+﻿@model softwareDeGestión.Models.Vistas.Medicamentos
+
+@{
+    ViewData["Title"] = "Editar Medicamento";
+}
+
+<br />
+<br />
+
+<!-- Cuerpo del modal con el formulario -->
+<div class="container shadow p-5 bg-white">
+    <h3 class="text-center">Editar Medicamento</h3>
+    <form asp-controller="DetallesVistas" asp-action="Guardarupdateme" method="post">
+        <input type="hidden" value="@ViewBag.MiArray[0][0]" asp-for="MedicamentoID" />
+        <div class="mb-3">
+            <label asp-for="NombreMedicamento" class="form-label">Nombre</label>
+            <input asp-for="NombreMedicamento" class="form-control" value="@ViewBag.MiArray[0][1]" placeholder="Ingrese Nombre">
+            <span asp-validation-for="NombreMedicamento" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="DescripcionMedicamento" class="form-label">Descripcion Medicamento</label>
+            <input asp-for="DescripcionMedicamento" class="form-control" value="@ViewBag.MiArray[0][2]" placeholder="Ingrese Descripcion Medicamento">
+            <span asp-validation-for="DescripcionMedicamento" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="InstruccionesUso" class="form-label">Instrucciones Uso</label>
+            <input asp-for="InstruccionesUso" class="form-control" value="@ViewBag.MiArray[0][3]" placeholder="Ingrese Instrucciones Uso">
+            <span asp-validation-for="InstruccionesUso" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="EfectosSecundarios" class="form-label">Efectos Secundarios</label>
+            <input asp-for="EfectosSecundarios" class="form-control" value="@ViewBag.MiArray[0][4]" placeholder="Ingrese Efectos Secundarios">
+            <span asp-validation-for="EfectosSecundarios" class="text-danger"></span>
+        </div>
+
+
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <a class="btn bg-secondary float-end text-white" asp-controller="DetallesVentas" asp-action="Medicamentos">Regresar</a>
+    </form>
+</div>

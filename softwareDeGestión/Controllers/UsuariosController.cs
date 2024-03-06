@@ -25,23 +25,20 @@ namespace softwareDeGestión.Controllers
         //Conexion a la base de Datos
         readonly ConexionDB conectar = new();
 
-        //--------------------//-----------------------//
-        //Cargar vista y lista Usuarios
-        //-------------------//-----------------------//
 
-        public IActionResult Index(int? pagina)
+
+
+        //--------------------//-----------------------//
+        //Cargar vista y lista Empleados
+        //-------------------//-----------------------//
+        public IActionResult Empleados(int? pagina)
         {
-            
             int numeroDePagina = pagina ?? 1;
             int registrosPorPagina = 5, totalPaginas = 0, total = 0;
-            
 
-
-            var resultados = new List<Usuario>();
             try
             {
-
-                string queryTotal = "select COUNT(*) as total from usuarios";
+                string queryTotal = "select COUNT(*) as total from empleados";
                 conectar.InicioConexion();
                 SqlCommand comando2 = new SqlCommand(queryTotal, conectar.conectar);
                 using (SqlDataReader reader = comando2.ExecuteReader())
@@ -51,7 +48,7 @@ namespace softwareDeGestión.Controllers
                 }
                 conectar.InicioDesconexion();
 
-                
+
                 if (total > registrosPorPagina)
                 {
                     /////total paginas
@@ -64,41 +61,26 @@ namespace softwareDeGestión.Controllers
                 {
                     totalPaginas = 1;
                 }
-                
+
                 int? indicador_fila = registrosPorPagina * (numeroDePagina - 1);
-                
-                string query = "SELECT * FROM usuarios ORDER BY codigo_usuario OFFSET "+ indicador_fila + " ROWS FETCH NEXT "+ registrosPorPagina + " ROWS ONLY";
+
+                string query = "SELECT * FROM empleados ORDER BY EmpleadoID OFFSET " + indicador_fila + " ROWS FETCH NEXT " + registrosPorPagina + " ROWS ONLY";
+
                 conectar.InicioConexion();
+
                 SqlCommand comando = new SqlCommand(query, conectar.conectar);
+                SqlDataAdapter informacionPE = new SqlDataAdapter();
+                informacionPE.SelectCommand = comando;
 
-                using (SqlDataReader reader = comando.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        // Mapea los datos a tu modelo de entidad
-                        var fila = new Usuario
-                        {
-                            codigo_usuario = Convert.ToInt32(reader["codigo_usuario"]),
-                            nombre_usuario = reader["nombre_usuario"].ToString(),
-                            estado_usuario = reader["estado_usuario"].ToString(),
-                            rol_usuario = reader["rol_usuario"].ToString(),
-                            fecha_creacion_usuario = reader["fecha_creacion_usuario"].ToString()
-                            
-                        };
+                DataTable tablaPE = new DataTable();
+                informacionPE.Fill(tablaPE);
 
-                        resultados.Add(fila);
-                        Console.WriteLine(fila);
-                    }
-                }
 
                 conectar.InicioDesconexion();
-                ViewBag.DatosTabla1 = resultados;
-
                 ViewBag.PaginaActual = numeroDePagina;
                 ViewBag.TotalPaginas = totalPaginas;
 
-
-                return View();
+                return View(tablaPE);
             }
             catch (Exception)
             {
@@ -271,65 +253,87 @@ namespace softwareDeGestión.Controllers
 
 
 
+
         //--------------------//-----------------------//
-        //Cargar vista y lista Empleados
+        //Cargar vista y lista Usuarios
         //-------------------//-----------------------//
-        public IActionResult Empleados(int? pagina)
+
+        public IActionResult Index(int? pagina)
         {
+
             int numeroDePagina = pagina ?? 1;
             int registrosPorPagina = 5, totalPaginas = 0, total = 0;
 
-            try { 
-            string queryTotal = "select COUNT(*) as total from empleados";
-            conectar.InicioConexion();
-            SqlCommand comando2 = new SqlCommand(queryTotal, conectar.conectar);
-            using (SqlDataReader reader = comando2.ExecuteReader())
+
+
+            var resultados = new List<Usuario>();
+            try
             {
-                reader.Read();
-                total = Convert.ToInt32(reader["total"]);
-            }
-            conectar.InicioDesconexion();
+
+                string queryTotal = "select COUNT(*) as total from usuarios";
+                conectar.InicioConexion();
+                SqlCommand comando2 = new SqlCommand(queryTotal, conectar.conectar);
+                using (SqlDataReader reader = comando2.ExecuteReader())
+                {
+                    reader.Read();
+                    total = Convert.ToInt32(reader["total"]);
+                }
+                conectar.InicioDesconexion();
 
 
-            if (total > registrosPorPagina)
-            {
-                /////total paginas
-                double numero_total_productos = total;
-                double resultado_divicion = numero_total_productos / 5.0;
-                double resultadoRedondeado = Math.Ceiling(resultado_divicion);
-                totalPaginas = (int)resultadoRedondeado;
-            }
-            else
-            {
-                totalPaginas = 1;
-            }
+                if (total > registrosPorPagina)
+                {
+                    /////total paginas
+                    double numero_total_productos = total;
+                    double resultado_divicion = numero_total_productos / 5.0;
+                    double resultadoRedondeado = Math.Ceiling(resultado_divicion);
+                    totalPaginas = (int)resultadoRedondeado;
+                }
+                else
+                {
+                    totalPaginas = 1;
+                }
 
-            int? indicador_fila = registrosPorPagina * (numeroDePagina - 1);
+                int? indicador_fila = registrosPorPagina * (numeroDePagina - 1);
 
-            string query = "SELECT * FROM empleados ORDER BY EmpleadoID OFFSET " + indicador_fila + " ROWS FETCH NEXT " + registrosPorPagina + " ROWS ONLY";
-
-            conectar.InicioConexion();
-
+                string query = "SELECT * FROM usuarios ORDER BY codigo_usuario OFFSET " + indicador_fila + " ROWS FETCH NEXT " + registrosPorPagina + " ROWS ONLY";
+                conectar.InicioConexion();
                 SqlCommand comando = new SqlCommand(query, conectar.conectar);
-                SqlDataAdapter informacionPE = new SqlDataAdapter();
-                informacionPE.SelectCommand = comando;
 
-                DataTable tablaPE = new DataTable();
-                informacionPE.Fill(tablaPE);
+                using (SqlDataReader reader = comando.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        // Mapea los datos a tu modelo de entidad
+                        var fila = new Usuario
+                        {
+                            codigo_usuario = Convert.ToInt32(reader["codigo_usuario"]),
+                            nombre_usuario = reader["nombre_usuario"].ToString(),
+                            estado_usuario = reader["estado_usuario"].ToString(),
+                            rol_usuario = reader["rol_usuario"].ToString(),
+                            fecha_creacion_usuario = reader["fecha_creacion_usuario"].ToString()
 
+                        };
+
+                        resultados.Add(fila);
+                        Console.WriteLine(fila);
+                    }
+                }
 
                 conectar.InicioDesconexion();
+                ViewBag.DatosTabla1 = resultados;
+
                 ViewBag.PaginaActual = numeroDePagina;
                 ViewBag.TotalPaginas = totalPaginas;
 
-                return View(tablaPE);
+
+                return View();
             }
             catch (Exception)
             {
                 return View();
             }
         }
-
 
         //--------------------//-----------------------//
         //Cargar vista FORMULARIO nuevo USUARIO
