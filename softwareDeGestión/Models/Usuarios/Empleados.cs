@@ -11,21 +11,21 @@ namespace softwareDeGestión.Models.Usuarios
         public int? EmpledoID {  get; set; } 
 
         [Required(ErrorMessage = "Nombres es requerido")]
-        [StringLength(30, ErrorMessage = "Logitud máxima 30")]
+        [StringLength(50, MinimumLength = 3, ErrorMessage = "Logitud minima 3, máxima 50.")]
         public string? nombres_empleado { get; set; }
 
         [Required(ErrorMessage = "Apellidos es requerido")]
-        [StringLength(30, ErrorMessage = "Logitud máxima 30")]
+        [StringLength(50, MinimumLength = 3, ErrorMessage = "Logitud minima 3, máxima 50.")]
         public string? apellidos_empleado { get; set; }
 
 
-        [Required(ErrorMessage = "Teléfono es requerido")]
-        [StringLength(8, ErrorMessage = "Logitud máxima 8")]
-        [Phone(ErrorMessage = "El formato del teléfono no es válido")]
+        [Required(ErrorMessage = "Telefono es requerido")]
+        [StringLength(8, ErrorMessage = "Requiere 8 números")]
+        [RegularExpression("^[0-9]+$", ErrorMessage = "Ingrese solo números")]
         public string? telefono_empleado { get; set; }
 
         [Required(ErrorMessage = "Dirección es requerido")]
-        [StringLength(10, ErrorMessage = "Logitud máxima 10")]
+        [StringLength(50, MinimumLength = 3, ErrorMessage = "Logitud minima 3, máxima 50.")]
         public string? direccion_empleado { get; set; }
 
 

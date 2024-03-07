@@ -50,7 +50,7 @@ namespace softwareDeGestión.Controllers
                             PacienteID = Convert.ToInt32(reader["PacienteID"]),
                             Nombre = reader["Nombre"].ToString(),
                             Apellido = reader["Apellido"].ToString(),
-                            Edad = reader["Edad"].ToString(),
+                            Edad = Convert.ToInt32(reader["Edad"]),
                             Genero = reader["Genero"].ToString(),
                             Direccion = reader["Direccion"].ToString(),
                             Telefono = reader["Telefono"].ToString(),
@@ -489,12 +489,12 @@ namespace softwareDeGestión.Controllers
         //-------------------//-----------------------//
         public IActionResult Medicamentos(int? pagina)
         {
-            /*
-            if (_httpContextAccessor.HttpContext != null)
+            
+            if (HttpContext != null)
             {
-                string? usuarioActual = _httpContextAccessor.HttpContext.Session.GetString("UsuarioActual");
+                string? usuarioActual = HttpContext.Session.GetString("UsuarioActual");
                 ViewData["UsuarioActual"] = usuarioActual;
-            }*/
+            }
 
             int numeroDePagina = pagina ?? 1;
             int registrosPorPagina = 5, totalPaginas = 0, total = 0;

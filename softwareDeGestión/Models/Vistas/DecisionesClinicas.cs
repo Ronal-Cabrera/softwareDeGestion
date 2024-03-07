@@ -13,15 +13,19 @@ namespace softwareDeGestión.Models.Vistas
         public string? FechaDecision { get; set; }
 
         [Required(ErrorMessage = "Dato requerido")]
+        [StringLength(255, MinimumLength = 3, ErrorMessage = "Logitud minima 3, máxima 255.")]
         public string? TratamientosRecomendados { get; set; }
 
         [Required(ErrorMessage = "Dato requerido")]
+        [StringLength(255, MinimumLength = 3, ErrorMessage = "Logitud minima 3, máxima 255.")]
         public string? MedicamentosRecetados { get; set; }
 
         [Required(ErrorMessage = "Dato requerido")]
+        [StringLength(255, MinimumLength = 3, ErrorMessage = "Logitud minima 3, máxima 255.")]
         public string? CambiosEstiloVida { get; set; }
 
         [Required(ErrorMessage = "Dato requerido")]
+        [StringLength(255, MinimumLength = 3, ErrorMessage = "Logitud minima 3, máxima 255.")]
         public string? SeguimientoProximasCitas { get; set; }
     }
 }

@@ -13,6 +13,7 @@ namespace softwareDeGestión.Models.Vistas
         public string? FechaControl { get; set; }
 
         [Required(ErrorMessage = "Dato es requerido")]
+        [Range(1, 150, ErrorMessage = "Valor no aceptable")]
         public float? NivelGlucosa { get; set; }
 
 
@@ -20,6 +21,7 @@ namespace softwareDeGestión.Models.Vistas
         public string? Comentarios { get; set; }
 
         [Required(ErrorMessage = "Dato es requerido")]
+        [StringLength(255, MinimumLength = 3, ErrorMessage = "Logitud minima 3, máxima 255.")]
         public string? OtrosResultados { get; set; }
     }
 }

@@ -11,11 +11,11 @@ namespace softwareDeGestión.Models.Usuarios
         }
 
         [Required(ErrorMessage = "Usuario es requerido")]
-        [StringLength(50, ErrorMessage = "Logitud máxima 50")]
+        [StringLength(30, MinimumLength = 3, ErrorMessage = "Logitud minima 3, máxima 30.")]
         public string? Usuario { get; set; }
 
         [Required(ErrorMessage = "Contraseña es requerido")]
-        [StringLength(50, ErrorMessage = "Logitud máxima 50")]
+        [StringLength(30, MinimumLength = 3, ErrorMessage = "Logitud minima 3, máxima 30.")]
         public string? Contra { get; set; }
 
 
