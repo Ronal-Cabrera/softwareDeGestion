@@ -25,7 +25,7 @@
 
 <br />
 <h1>Empleados</h1>
-<a class="btn bg-secondary text-white" asp-controller="Usuarios" asp-action="NuevoEmpleado">Nuevo</a>
+<a class="btn bg-secondary text-white" asp-controller="Empleados" asp-action="NuevoEmpleado">Nuevo</a>
 <a class="btn bg-secondary text-white" asp-controller="Usuarios" asp-action="Index">Ver Usuarios</a>
 <br /><br />
 
@@ -56,10 +56,10 @@
                     <td>@Convert.ToString(Model.Rows[index]["fecha_creacion_empleado"])</td>
 
                     <td style="width:100px;">
-                        <a href="@Url.Action("EditarEmpleado", "Usuarios", new { id = Model.Rows[index]["EmpleadoID"] })" class="btn btn-success">Editar</a>
+                        <a href="@Url.Action("EditarEmpleado", "Empleados", new { id = Model.Rows[index]["EmpleadoID"] })" class="btn btn-success">Editar</a>
                     </td>
                     <td style="width:100px;">
-                        <form asp-action="Eliminaremp" asp-controller="Usuarios" method="post">
+                        <form asp-action="Eliminaremp" asp-controller="Empleados" method="post">
                             <input type="hidden" name="id" value="@Model.Rows[index]["EmpleadoID"]" />
                             <button type="submit" class="btn btn-danger">Eliminar</button>
                         </form>

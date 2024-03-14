@@ -1,13 +1,13 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
 using softwareDeGestión.Models;
-using softwareDeGestión.Models.Usuarios;
 using softwareDeGestión.Models.Vistas;
 using System.Data;
 using System.Data.SqlClient;
 
 
 using Microsoft.AspNetCore.Http;
+using softwareDeGestión.Models.Paciente;
 
 
 namespace softwareDeGestión.Controllers

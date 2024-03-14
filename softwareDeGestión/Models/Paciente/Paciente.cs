@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace softwareDeGestión.Models.Usuarios
+namespace softwareDeGestión.Models.Paciente
 {
     public class Paciente
     {

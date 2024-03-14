@@ -1,4 +1,4 @@
-﻿@model softwareDeGestión.Models.Usuarios.Empleados
+﻿@model softwareDeGestión.Models.Empleados.Empleados
 
 @{
     ViewData["Title"] = "Editar Empleado";
@@ -10,7 +10,7 @@
 <!-- Cuerpo del modal con el formulario -->
 <div class="container shadow p-5 bg-white">
     <h3 class="text-center">Editar Empleado</h3>
-    <form asp-controller="Usuarios" asp-action="Guardarupdateemp" method="post">
+    <form asp-controller="Empleados" asp-action="Guardarupdateemp" method="post">
         <input type="hidden" value="@ViewBag.MiArray[0][0]" asp-for="EmpledoID" />
         <div class="mb-3">
             <label asp-for="nombres_empleado" class="form-label">Nombres</label>
@@ -35,6 +35,6 @@
 
 
         <button type="submit" class="btn btn-primary">Guardar</button>
-        <a class="btn bg-secondary float-end text-white" asp-controller="Usuarios" asp-action="Empleados">Regresar</a>
+        <a class="btn bg-secondary float-end text-white" asp-controller="Empleados" asp-action="Empleados">Regresar</a>
     </form>
 </div>
