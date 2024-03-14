@@ -17,9 +17,11 @@ namespace softwareDeGestión.Models.Vistas
         public string? FechaPrescripcion { get; set; }
 
         [Required(ErrorMessage = "Dato requerido.")]
+        [StringLength(50, MinimumLength = 3, ErrorMessage = "Logitud minima 3, máxima 50.")]
         public string? DosisPrescrita { get; set; }
 
         [Required(ErrorMessage = "Dato requerido.")]
+        [StringLength(50, MinimumLength = 3, ErrorMessage = "Logitud minima 3, máxima 50.")]
         public string? DuracionPrescripcion { get; set; }
 
         [Required(ErrorMessage = "Dato requerido.")]

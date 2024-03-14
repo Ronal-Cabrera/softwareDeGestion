@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
 using softwareDeGestión.Models;
+using softwareDeGestión.Models.Usuarios;
 using softwareDeGestión.Models.Vistas;
 using System.Data;
 using System.Data.SqlClient;
@@ -50,7 +51,6 @@ namespace softwareDeGestión.Controllers
                             PacienteID = Convert.ToInt32(reader["PacienteID"]),
                             Nombre = reader["Nombre"].ToString(),
                             Apellido = reader["Apellido"].ToString(),
-                            Edad = reader["Edad"].ToString(),
                             Genero = reader["Genero"].ToString(),
                             Direccion = reader["Direccion"].ToString(),
                             Telefono = reader["Telefono"].ToString(),
@@ -489,12 +489,8 @@ namespace softwareDeGestión.Controllers
         //-------------------//-----------------------//
         public IActionResult Medicamentos(int? pagina)
         {
-            /*
-            if (_httpContextAccessor.HttpContext != null)
             {
-                string? usuarioActual = _httpContextAccessor.HttpContext.Session.GetString("UsuarioActual");
                 ViewData["UsuarioActual"] = usuarioActual;
-            }*/
 
             int numeroDePagina = pagina ?? 1;
             int registrosPorPagina = 5, totalPaginas = 0, total = 0;

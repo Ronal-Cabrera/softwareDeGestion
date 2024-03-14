@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using softwareDeGestión.Models.Usuarios;
 using System.Data.SqlClient;
 using System.Data;
 using softwareDeGestión.Models;

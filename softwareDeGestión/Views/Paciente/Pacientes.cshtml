@@ -25,7 +25,6 @@
 
 <br />
 <h1>Pacientes</h1>
-<a class="btn bg-secondary text-white" asp="Paciente" asp-action="NuevoPaciente">Nuevo</a>
 <br />
 <br />
 
@@ -60,7 +59,6 @@
                     <td>@Convert.ToString(Model.Rows[index]["FechaIngreso"])</td>
 
                     <td style="width:100px;">
-                        <a href="@Url.Action("EditarPaciente", "Paciente", new { id = Model.Rows[index]["PacienteID"] })" class="btn btn-success">Editar</a>
                     </td>
                     <td style="width:100px;">
                         <form asp-action="Eliminarpaci" asp-controller="Paciente" method="post">
