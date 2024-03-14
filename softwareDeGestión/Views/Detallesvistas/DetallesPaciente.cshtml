@@ -4,65 +4,103 @@
 }
 
 <br />
-<a class="btn bg-secondary text-white float-end">Editar Datos</a>
-<h3>Datos del pacientes</h3>
+
+<h3 class="m-1 text-">Paciente: <strong>@ViewBag.MiArrayUE[0][1]</strong></h3>
+<a class="btn m-1 bg-primary text-white" asp-controller="Paciente" asp-action="Pacientes">Regresar</a>
 
 <span class="clearfix"></span>
+<a class="btn m-1 float-end bg-success text-white">Usuario Móvil</a>
+<span class="clearfix"></span>
 
-<br /><br />
-<div class="bg-white m-1 p-5">
-<div class="row g-3 bg-white">
-    <div class="col-md-6">
-        <label for="inputEmail4" class="form-label">Nombre</label>
-        <input type="text" value="@ViewBag.DatosTabla1[0].Nombre" class="form-control" id="inputEmail4" disabled>
-    </div>
-    <div class="col-md-6">
-        <label for="inputPassword4" class="form-label">Apellido</label>
-        <input type="text" value="@ViewBag.DatosTabla1[0].Apellido" class="form-control" id="inputPassword4" disabled>
-    </div>
-    <div class="col-12">
-        <label for="inputAddress" class="form-label">Dirección</label>
-        <input type="text" class="form-control" value="@ViewBag.DatosTabla1[0].Direccion" id="inputAddress" disabled>
-    </div>
-    <div class="col-md-6">
-        <label for="inputCity" class="form-label">Teléfono</label>
-        <input type="text" class="form-control" value="@ViewBag.DatosTabla1[0].Telefono" id="inputCity" disabled>
-    </div>
-    <div class="col-md-4">
-        <label for="inputState" class="form-label">Genero</label>
-        <input type="text" class="form-control" value="@ViewBag.DatosTabla1[0].Genero" id="inputCity" disabled>
-    </div>
-    <div class="col-md-2">
-        <label for="inputZip" class="form-label">Edad</label>
-        <input type="text" class="form-control" value="@ViewBag.DatosTabla1[0].Edad" id="inputZip" disabled>
-    </div>
 
-</div>
+
+<div class="bg-white m-1 p-5" style="border: 1px solid;">
+    <div class="row g-3 bg-white">  
+
+        <div class="col-md-10 m-0 p-0">
+            <h4><strong> • Detalles del Paciente.</strong></h4>
+        </div>
+        <div class="col-md-2 m-0 p-0">
+            <a class="btn w-100 bg-success text-white float-end">Editar Datos</a>
+        </div>
+        <div class="col-md-6 m-0">
+            <label for="inputEmail4" class="form-label">Nombre</label>
+                <input type="text" value="@ViewBag.MiArrayUE[0][1]" class="form-control" id="inputEmail4" disabled>
+        </div>
+        <div class="col-md-6 m-0">
+            <label for="inputPassword4" class="form-label">Apellido</label>
+                <input type="text" value="@ViewBag.MiArrayUE[0][2]" class="form-control" id="inputPassword4" disabled>
+        </div>
+            <div class="col-12 m-0">
+            <label for="inputAddress" class="form-label">Dirección</label>
+                <input type="text" class="form-control" value="@ViewBag.MiArrayUE[0][4]" id="inputAddress" disabled>
+        </div>
+            <div class="col-md-6 m-0">
+            <label for="inputCity" class="form-label">Teléfono</label>
+                <input type="text" class="form-control" value="@ViewBag.MiArrayUE[0][5]" id="inputCity" disabled>
+        </div>
+            <div class="col-md-4 m-0">
+            <label for="inputState" class="form-label">Genero</label>
+                <input type="text" class="form-control" value="@ViewBag.MiArrayUE[0][3]" id="inputCity" disabled>
+        </div>
+            <div class="col-md-2 m-0">
+            <label for="inputZip" class="form-label">Edad</label>
+                <input type="text" class="form-control" value="@ViewBag.MiArrayUE[0][6]" id="inputZip" disabled>
+        </div>
+        <div class="col-md-12" style="height:25px;">
+           
+        </div>
+        <div class="col-md-12 m-0 p-0">
+            <h4><strong> • Factores riesgo.</strong></h4>
+        </div>
+
+        <div class="col-md-12 m-0">
+            <label for="inputZip" class="form-label">Historial Familiar</label>
+            <input type="text" class="form-control" value="@ViewBag.MiArrayUE[0][9]" id="inputZip" disabled>
+        </div>
+        <div class="col-md-6 m-0">
+            <label for="inputZip" class="form-label">Actividad fisica</label>
+            <input type="text" class="form-control" value="@ViewBag.MiArrayUE[0][10]" id="inputZip" disabled>
+        </div>
+        <div class="col-md-6 m-0">
+            <label for="inputZip" class="form-label">Niveles estres</label>
+            <input type="text" class="form-control" value="@ViewBag.MiArrayUE[0][12]" id="inputZip" disabled>
+        </div>
+        <div class="col-md-12 m-0">
+            <label for="inputZip" class="form-label">Habitos alimenticios</label>
+            <input type="text" class="form-control" value="@ViewBag.MiArrayUE[0][11]" id="inputZip" disabled>
+        </div>
+        <div class="col-md-12 m-0">
+            <label for="inputZip" class="form-label">Otros Factores</label>
+            <input type="text" class="form-control" value="@ViewBag.MiArrayUE[0][13]" id="inputZip" disabled>
+        </div>
+    </div>
 </div>
 
 <br /><br />
 <div class="row g-3">
     <div class="col-md-4">
-        <a href="@Url.Action("", "Detallesvistas", new { id = ViewBag.DatosTabla1[0].PacienteID, pagina="1", name=ViewBag.DatosTabla1[0].Nombre })" class="btn w-100 bg-secondary text-white">Historial Medico</a>
+        <a href="@Url.Action("HistorialMedico", "Detallesvistas", new { id = ViewBag.MiArrayUE[0][0], pagina="1", name=ViewBag.MiArrayUE[0][1] })" class="btn w-100 bg-secondary text-white">Historial Medico</a>
     </div>
     <div class="col-md-4">
-        <a href="@Url.Action("ResultadosLaboratorio", "Detallesvistas", new { id = ViewBag.DatosTabla1[0].PacienteID, pagina="1", name=ViewBag.DatosTabla1[0].Nombre })"  class="btn w-100 bg-secondary text-white">Resultados Laboratorio</a>
+        <a href="@Url.Action("ResultadosLaboratorio", "Detallesvistas", new { id = ViewBag.MiArrayUE[0][0], pagina="1", name=ViewBag.MiArrayUE[0][1] })" class="btn w-100 bg-secondary text-white">Resultados Laboratorio</a>
     </div>
+    <!--
     <div class="col-md-4">
         <a class="btn w-100 bg-secondary text-white">Factores Riesgo</a>
+    </div>-->
+    <div class="col-md-4">
+        <a href="@Url.Action("DecisionesClinicas", "Detallesvistas", new { id = ViewBag.MiArrayUE[0][0], pagina="1", name=ViewBag.MiArrayUE[0][1] })" class="btn w-100 bg-secondary text-white">Decisiones Clinicas</a>
     </div>
     <div class="col-md-4">
+        <a href="@Url.Action("Prescripciones", "Detallesvistas", new { id = ViewBag.MiArrayUE[0][0], pagina="1", name=ViewBag.MiArrayUE[0][1] })" class="btn w-100 bg-secondary text-white">Prescripciones</a>
     </div>
     <div class="col-md-4">
+        <a href="@Url.Action("RegistroAlimentacion", "Detallesvistas", new { id = ViewBag.MiArrayUE[0][0], pagina="1", name=ViewBag.MiArrayUE[0][1] })" class="btn w-100 bg-secondary text-white">Registro Alimenticio</a>
     </div>
     <div class="col-md-4">
-        <a href="@Url.Action("RegistroAlimentacion", "Detallesvistas", new { id = ViewBag.DatosTabla1[0].PacienteID, pagina="1", name=ViewBag.DatosTabla1[0].Nombre })" class="btn w-100 bg-secondary text-white">Registro Alimenticio</a>
-    </div>
-    <div class="col-md-4">
+        <a href="@Url.Action("RegistroActividadFisica", "Detallesvistas", new { id = ViewBag.MiArrayUE[0][0], pagina="1", name=ViewBag.MiArrayUE[0][1] })" class="btn w-100 bg-secondary text-white">Actividades Fisicas</a>
     </div>
 
-    <div class="col-md-4">
-        <a class="btn w-100 bg-primary text-white">Usuario Móvil</a>
-    </div>
 
 </div>

@@ -34,37 +34,56 @@ namespace softwareDeGestión.Controllers
 
         public IActionResult DetallesPaciente(int? id)
         {
+            if (HttpContext != null)
+            {
+                // Recuperar el nombre de usuario de la sesión
+                string? usuarioActual = HttpContext.Session.GetString("UsuarioActual");
+                ViewData["UsuarioActual"] = usuarioActual;
+            }
+
+            List<List<string>> miArrayUE = new List<List<string>>();
             try
             {
-                var resultados = new List<Paciente>();
-                string query = "SELECT * FROM pacientes WHERE PacienteID = @id";
+                string query = "SELECT * FROM pacientes INNER JOIN factores_riesgo ON factores_riesgo.PacienteID = pacientes.PacienteID WHERE pacientes.PacienteID = @id";
                 conectar.InicioConexion();
                 SqlCommand comando = new SqlCommand(query, conectar.conectar);
                 comando.Parameters.AddWithValue("@id", id);
                 using (SqlDataReader reader = comando.ExecuteReader())
                 {
                     reader.Read();
-                    
-                        // Mapea los datos a tu modelo de entidad
-                        var fila = new Paciente
-                        {
-                            PacienteID = Convert.ToInt32(reader["PacienteID"]),
-                            Nombre = reader["Nombre"].ToString(),
-                            Apellido = reader["Apellido"].ToString(),
-                            Genero = reader["Genero"].ToString(),
-                            Direccion = reader["Direccion"].ToString(),
-                            Telefono = reader["Telefono"].ToString(),
-                            FechaIngreso = reader["FechaIngreso"].ToString()
 
-                        };
+                    string PacienteID = reader["PacienteID"].ToString() ?? string.Empty;
+                    string Nombre = reader["Nombre"].ToString() ?? string.Empty;
+                    string Apellido = reader["Apellido"].ToString() ?? string.Empty;
+                    string Genero = reader["Genero"].ToString() ?? string.Empty;
+                    string Direccion = reader["Direccion"].ToString() ?? string.Empty;
+                    string Telefono = reader["Telefono"].ToString() ?? string.Empty;
+                    string Edad = reader["Edad"].ToString() ?? string.Empty;
 
-                        resultados.Add(fila);
-                        Console.WriteLine(fila);
-                    
+                    string FechaIngreso = reader["FechaIngreso"].ToString() ?? string.Empty; //7
+
+                    string FactorID = reader["FactorID"].ToString() ?? string.Empty;
+                    string HistorialFamiliarDiabetes = reader["HistorialFamiliarDiabetes"].ToString() ?? string.Empty;
+                    string ActividadFisica = reader["ActividadFisica"].ToString() ?? string.Empty;
+                    string HabitosAlimenticios = reader["HabitosAlimenticios"].ToString() ?? string.Empty;
+                    string NivelesEstres = reader["NivelesEstres"].ToString() ?? string.Empty;
+                    string OtrosFactores = reader["OtrosFactores"].ToString() ?? string.Empty;
+
+                    List<string> nuevaFila = new List<string>
+                    {
+                        PacienteID,
+                        Nombre,
+                        Apellido,
+                        Genero, Direccion, Telefono, Edad, FechaIngreso, FactorID, 
+                        HistorialFamiliarDiabetes,ActividadFisica,HabitosAlimenticios,NivelesEstres, OtrosFactores
+                    };
+
+                    miArrayUE.Add(nuevaFila);
+
                 }
 
                 conectar.InicioDesconexion();
-                ViewBag.DatosTabla1 = resultados;
+                ViewBag.MiArrayUE = miArrayUE;
             }
             catch (Exception)
             {
@@ -79,7 +98,7 @@ namespace softwareDeGestión.Controllers
         public IActionResult ResultadosLaboratorio(int? id, int? pagina, string? name)
         {
             int numeroDePagina = pagina ?? 1;
-            int registrosPorPagina = 5, totalPaginas = 0, total = 0;
+            int registrosPorPagina = 50, totalPaginas = 0, total = 0;
 
 
 
@@ -160,7 +179,7 @@ namespace softwareDeGestión.Controllers
         public IActionResult RegistroAlimentacion(int? id, int? pagina, string? name)
         {
             int numeroDePagina = pagina ?? 1;
-            int registrosPorPagina = 5, totalPaginas = 0, total = 0;
+            int registrosPorPagina = 50, totalPaginas = 0, total = 0;
 
 
 
@@ -240,7 +259,7 @@ namespace softwareDeGestión.Controllers
         public IActionResult RegistroActividadFisica(int? id, int? pagina, string? name)
         {
             int numeroDePagina = pagina ?? 1;
-            int registrosPorPagina = 5, totalPaginas = 0, total = 0;
+            int registrosPorPagina = 50, totalPaginas = 0, total = 0;
 
 
 
@@ -321,7 +340,7 @@ namespace softwareDeGestión.Controllers
         public IActionResult Prescripciones(int? id, int? pagina, string? name)
         {
             int numeroDePagina = pagina ?? 1;
-            int registrosPorPagina = 5, totalPaginas = 0, total = 0;
+            int registrosPorPagina = 50, totalPaginas = 0, total = 0;
 
 
 
@@ -404,7 +423,7 @@ namespace softwareDeGestión.Controllers
         public IActionResult DecisionesClinicas(int? id, int? pagina, string? name)
         {
             int numeroDePagina = pagina ?? 1;
-            int registrosPorPagina = 5, totalPaginas = 0, total = 0;
+            int registrosPorPagina = 50, totalPaginas = 0, total = 0;
 
 
 
@@ -479,7 +498,94 @@ namespace softwareDeGestión.Controllers
             {
                 return View();
             }
+
         }
+
+
+        public IActionResult HistorialMedico(int? id, int? pagina, string? name)
+        {
+            int numeroDePagina = pagina ?? 1;
+            int registrosPorPagina = 50, totalPaginas = 0, total = 0;
+
+
+
+            var resultados = new List<HistorialMedico>();
+            /*try
+            {*/
+
+                string queryTotal = "select COUNT(*) as total from historial_medico WHERE PacienteID = @id ;";
+                conectar.InicioConexion();
+                SqlCommand comando2 = new SqlCommand(queryTotal, conectar.conectar);
+                comando2.Parameters.AddWithValue("@id", id);
+                using (SqlDataReader reader = comando2.ExecuteReader())
+                {
+                    reader.Read();
+                    total = Convert.ToInt32(reader["total"]);
+                }
+                conectar.InicioDesconexion();
+
+
+                if (total > registrosPorPagina)
+                {
+                    /////total paginas
+                    double numero_total_productos = total;
+                    double resultado_divicion = numero_total_productos / 5.0;
+                    double resultadoRedondeado = Math.Ceiling(resultado_divicion);
+                    totalPaginas = (int)resultadoRedondeado;
+                }
+                else
+                {
+                    totalPaginas = 1;
+                }
+
+                int? indicador_fila = registrosPorPagina * (numeroDePagina - 1);
+
+                string query = "SELECT * FROM historial_medico WHERE PacienteID = @id ORDER BY HistorialID OFFSET " + indicador_fila + " ROWS FETCH NEXT " + registrosPorPagina + " ROWS ONLY;";
+                conectar.InicioConexion();
+                SqlCommand comando = new SqlCommand(query, conectar.conectar);
+                comando.Parameters.AddWithValue("@id", id);
+                using (SqlDataReader reader = comando.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        // Mapea los datos a tu modelo de entidad
+                        var fila = new HistorialMedico
+                        {
+                            HistorialID = Convert.ToInt32(reader["HistorialID"]),
+                            FechaConsulta = reader["FechaConsulta"].ToString(),
+                            Peso = Convert.ToSingle(reader["Peso"]),
+                            Altura = Convert.ToSingle(reader["Altura"]),
+
+                            TipoDiabetes = reader["TipoDiabetes"].ToString(),
+                            PresionArterial = reader["PresionArterial"].ToString(),
+                            AntecedentesFamiliares = reader["AntecedentesFamiliares"].ToString(),
+                            OtrosAntecedentes = reader["OtrosAntecedentes"].ToString()
+
+                        };
+
+                        resultados.Add(fila);
+                        Console.WriteLine(fila);
+                    }
+                }
+
+                conectar.InicioDesconexion();
+                ViewBag.DatosTabla1 = resultados;
+
+                ViewBag.PaginaActual = numeroDePagina;
+                ViewBag.TotalPaginas = totalPaginas;
+                ViewBag.name = name;
+                ViewBag.id = id;
+
+
+                return View();
+            /*}
+            catch (Exception)
+            {
+                return View();
+            }*/
+
+        }
+
 
 
 
@@ -489,8 +595,13 @@ namespace softwareDeGestión.Controllers
         //-------------------//-----------------------//
         public IActionResult Medicamentos(int? pagina)
         {
+
+            if (HttpContext != null)
             {
+                // Recuperar el nombre de usuario de la sesión
+                string? usuarioActual = HttpContext.Session.GetString("UsuarioActual");
                 ViewData["UsuarioActual"] = usuarioActual;
+            }
 
             int numeroDePagina = pagina ?? 1;
             int registrosPorPagina = 5, totalPaginas = 0, total = 0;

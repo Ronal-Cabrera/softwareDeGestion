@@ -24,22 +24,22 @@ namespace softwareDeGestión.Controllers
 
         //Conexion a la base de Datos
         readonly ConexionDB conectar = new();
-
+        
         //--------------------//-----------------------//
         //Cargar vista y lista Empleados
         //-------------------//-----------------------//
-        public IActionResult Empleados(int? pagina)
+        public IActionResult Index(int? pagina)
         {
             
             int numeroDePagina = pagina ?? 1;
-            int registrosPorPagina = 5, totalPaginas = 0, total = 0;
+            int registrosPorPagina = 50, totalPaginas = 0, total = 0;
             
 
 
             var resultados = new List<Usuario>();
             try
             {
-                string queryTotal = "select COUNT(*) as total from empleados";
+                string queryTotal = "select COUNT(*) as total from usuarios";
                 conectar.InicioConexion();
                 SqlCommand comando2 = new SqlCommand(queryTotal, conectar.conectar);
                 using (SqlDataReader reader = comando2.ExecuteReader())
@@ -86,12 +86,18 @@ namespace softwareDeGestión.Controllers
                             fecha_creacion_usuario = reader["fecha_creacion_usuario"].ToString()
                             
                         };
+                        resultados.Add(fila);
+                        Console.WriteLine(fila);
+                    }
+                }
 
                 conectar.InicioDesconexion();
+                ViewBag.DatosTabla1 = resultados;
+
                 ViewBag.PaginaActual = numeroDePagina;
                 ViewBag.TotalPaginas = totalPaginas;
 
-                return View(tablaPE);
+                return View();
             }
             catch (Exception)
             {
@@ -99,10 +105,8 @@ namespace softwareDeGestión.Controllers
             }
         }
 
-            return RedirectToAction("Empleados", "Usuarios");
 
-        }
-
+        /*
         //--------------------//-----------------------//
         //Eliminar Empleado
         //-------------------//-----------------------//
@@ -128,6 +132,7 @@ namespace softwareDeGestión.Controllers
         }
 
 
+        */
 
 
 
@@ -144,8 +149,7 @@ namespace softwareDeGestión.Controllers
 
 
 
-
-
+        /*
         //--------------------//-----------------------//
         //Cargar vista y lista Empleados
         //-------------------//-----------------------//
@@ -204,7 +208,7 @@ namespace softwareDeGestión.Controllers
                 return View();
             }
         }
-
+        */
 
         //--------------------//-----------------------//
         //Cargar vista FORMULARIO nuevo USUARIO

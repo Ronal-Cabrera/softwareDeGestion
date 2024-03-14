@@ -34,6 +34,14 @@ namespace softwareDeGestión.Controllers
         //-------------------//-----------------------//
         public IActionResult Pacientes()
         {
+
+            if (HttpContext != null)
+            {
+                // Recuperar el nombre de usuario de la sesión
+                string? usuarioActual = HttpContext.Session.GetString("UsuarioActual");
+                ViewData["UsuarioActual"] = usuarioActual;
+            }
+
             try
             {
                 string query = "select * from pacientes";

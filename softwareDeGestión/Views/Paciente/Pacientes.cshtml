@@ -23,10 +23,9 @@
 </div>
 
 
-<br />
+
 <h1>Pacientes</h1>
-<br />
-<br />
+
 
 <div class="tablas bg-white overflow-auto">
 
@@ -36,11 +35,15 @@
                 <th scope="col">#</th>
                 <th scope="col">Nombres</th>
                 <th scope="col">Apellidos</th>
+
+                <!--
                 <th scope="col">Edad</th>
                 <th scope="col">Genero</th>
                 <th scope="col">Direccion</th>
-                <th scope="col">Telefono</th>
-                <th scope="col">Creación</th>
+                <th scope="col">Telefono</th>-->
+                <th scope="col">Fecha</th>
+                
+
                 <th style="width:100px;"></th>
                 <th style="width:100px;"></th>
             </tr>
@@ -52,13 +55,17 @@
                     <th scope="row">@(index + 1)</th>
                     <td>@Convert.ToString(Model.Rows[index]["Nombre"])</td>
                     <td>@Convert.ToString(Model.Rows[index]["Apellido"])</td>
+
+                    <!--
                     <td>@Convert.ToString(Model.Rows[index]["Edad"])</td>
                     <td>@Convert.ToString(Model.Rows[index]["Genero"])</td>
                     <td>@Convert.ToString(Model.Rows[index]["Direccion"])</td>
-                    <td>@Convert.ToString(Model.Rows[index]["Telefono"])</td>
+                    <td>@Convert.ToString(Model.Rows[index]["Telefono"])</td>-->
                     <td>@Convert.ToString(Model.Rows[index]["FechaIngreso"])</td>
+                    
 
                     <td style="width:100px;">
+                        <a href="@Url.Action("DetallesPaciente", "Detallesvistas", new { id = Model.Rows[index]["PacienteID"] })" class="btn w-100 bg-secondary text-white">Detalles</a>
                     </td>
                     <td style="width:100px;">
                         <form asp-action="Eliminarpaci" asp-controller="Paciente" method="post">

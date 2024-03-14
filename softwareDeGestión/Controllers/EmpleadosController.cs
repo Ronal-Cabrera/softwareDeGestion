@@ -37,7 +37,7 @@ namespace softwareDeGestión.Controllers
         public IActionResult Empleados(int? pagina)
         {
             int numeroDePagina = pagina ?? 1;
-            int registrosPorPagina = 5, totalPaginas = 0, total = 0;
+            int registrosPorPagina = 50, totalPaginas = 0, total = 0;
 
             try
             {
@@ -176,7 +176,7 @@ namespace softwareDeGestión.Controllers
                 conectar.InicioDesconexion();
             }
 
-            return RedirectToAction("Empleados", "Usuarios");
+            return RedirectToAction("Empleados", "Empleados");
 
         }
 
@@ -209,7 +209,7 @@ namespace softwareDeGestión.Controllers
                 conectar.InicioDesconexion();
             }
 
-            return RedirectToAction("Empleados", "Usuarios");
+            return RedirectToAction("Empleados", "Empleados");
 
         }
 
@@ -234,7 +234,7 @@ namespace softwareDeGestión.Controllers
 
             conectar.InicioDesconexion();
 
-            return RedirectToAction("Empleados", "Usuarios"); // Puedes redirigir a la acción Index u otra página según tu aplicación.
+            return RedirectToAction("Empleados", "Empleados"); // Puedes redirigir a la acción Index u otra página según tu aplicación.
         }
 
     }

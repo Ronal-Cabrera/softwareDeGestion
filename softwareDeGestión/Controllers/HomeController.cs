@@ -30,7 +30,23 @@ namespace softwareDeGestión.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            string? usuarioActual = null;
+            if (_httpContextAccessor.HttpContext != null)
+            {
+                // Recuperar el nombre de usuario de la sesión
+                usuarioActual = _httpContextAccessor.HttpContext.Session.GetString("UsuarioActual");
+               
+            }
+
+            if (usuarioActual == null)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Pacientes", "Paciente");
+            }
+ 
         }
 
         [HttpPost]
@@ -63,7 +79,7 @@ namespace softwareDeGestión.Controllers
                         {
                             _httpContextAccessor.HttpContext.Session.SetString("UsuarioActual", usuario);
                         }
-                        return RedirectToAction("Dashboard", "Home");
+                        return RedirectToAction("Pacientes", "Paciente");
                     }
 
                 }

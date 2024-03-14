@@ -11,7 +11,7 @@
     <style>
         .tablas{
             position: fixed;
-            top: 160px;
+            top: 175px;
             left: 0;
             right: 0;
             bottom: 100px;
@@ -40,26 +40,29 @@
         <header>
             <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">softwareDeGestión</a>
+                    <a class="navbar-brand" asp-area="" asp-controller="Paciente" asp-action="Pacientes">softwareDeGestión</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">INICIO</a>
+                        <li class="nav-item px-3">
+                            
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Dashboard">Dashboard</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Paciente" asp-action="Pacientes">Pacientes</a>
                         </li>
                         <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="DetallesVistas" asp-action="Medicamentos">Medicamentos</a>
                             </li>
-                        <li class="nav-item d-flex">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Usuarios" asp-action="Index">Usuarios</a>
-                        </li>
+                     
                     </ul>
+                        <span class="navbar-text">
+
+                            <a class="nav-link text-dark p-0 m-0" asp-area="" asp-controller="Usuarios" asp-action="Index"><strong>Usuarios</strong></a>
+    
+                        </span>
                 </div>
             </div>
         </nav>
@@ -72,7 +75,7 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted fixed-bottom p-3" style="line-height: 22px;">
+    <footer class="border-top footer text-muted fixed-bottom p-3" style="line-height: 5px;">
         <div class="container-fluid">
             <p class="text-center">&copy; 2024 - softwareDeGestión</p>
         </div>
