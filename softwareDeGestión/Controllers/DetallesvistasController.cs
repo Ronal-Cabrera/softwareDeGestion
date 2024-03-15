@@ -34,70 +34,80 @@ namespace softwareDeGestión.Controllers
 
         public IActionResult DetallesPaciente(int? id)
         {
-            if (HttpContext != null)
+            if (HttpContext.Session.GetString("UsuarioActual") != null)
             {
                 // Recuperar el nombre de usuario de la sesión
                 string? usuarioActual = HttpContext.Session.GetString("UsuarioActual");
                 ViewData["UsuarioActual"] = usuarioActual;
-            }
 
-            List<List<string>> miArrayUE = new List<List<string>>();
-            try
-            {
-                string query = "SELECT * FROM pacientes INNER JOIN factores_riesgo ON factores_riesgo.PacienteID = pacientes.PacienteID WHERE pacientes.PacienteID = @id";
-                conectar.InicioConexion();
-                SqlCommand comando = new SqlCommand(query, conectar.conectar);
-                comando.Parameters.AddWithValue("@id", id);
-                using (SqlDataReader reader = comando.ExecuteReader())
+
+                List<List<string>> miArrayUE = new List<List<string>>();
+                try
                 {
-                    reader.Read();
+                    string query = "SELECT * FROM pacientes INNER JOIN factores_riesgo ON factores_riesgo.PacienteID = pacientes.PacienteID WHERE pacientes.PacienteID = @id";
+                    conectar.InicioConexion();
+                    SqlCommand comando = new SqlCommand(query, conectar.conectar);
+                    comando.Parameters.AddWithValue("@id", id);
+                    using (SqlDataReader reader = comando.ExecuteReader())
+                    {
+                        reader.Read();
 
-                    string PacienteID = reader["PacienteID"].ToString() ?? string.Empty;
-                    string Nombre = reader["Nombre"].ToString() ?? string.Empty;
-                    string Apellido = reader["Apellido"].ToString() ?? string.Empty;
-                    string Genero = reader["Genero"].ToString() ?? string.Empty;
-                    string Direccion = reader["Direccion"].ToString() ?? string.Empty;
-                    string Telefono = reader["Telefono"].ToString() ?? string.Empty;
-                    string Edad = reader["Edad"].ToString() ?? string.Empty;
+                        string PacienteID = reader["PacienteID"].ToString() ?? string.Empty;
+                        string Nombre = reader["Nombre"].ToString() ?? string.Empty;
+                        string Apellido = reader["Apellido"].ToString() ?? string.Empty;
+                        string Genero = reader["Genero"].ToString() ?? string.Empty;
+                        string Direccion = reader["Direccion"].ToString() ?? string.Empty;
+                        string Telefono = reader["Telefono"].ToString() ?? string.Empty;
+                        string Edad = reader["Edad"].ToString() ?? string.Empty;
 
-                    string FechaIngreso = reader["FechaIngreso"].ToString() ?? string.Empty; //7
+                        string FechaIngreso = reader["FechaIngreso"].ToString() ?? string.Empty; //7
 
-                    string FactorID = reader["FactorID"].ToString() ?? string.Empty;
-                    string HistorialFamiliarDiabetes = reader["HistorialFamiliarDiabetes"].ToString() ?? string.Empty;
-                    string ActividadFisica = reader["ActividadFisica"].ToString() ?? string.Empty;
-                    string HabitosAlimenticios = reader["HabitosAlimenticios"].ToString() ?? string.Empty;
-                    string NivelesEstres = reader["NivelesEstres"].ToString() ?? string.Empty;
-                    string OtrosFactores = reader["OtrosFactores"].ToString() ?? string.Empty;
+                        string FactorID = reader["FactorID"].ToString() ?? string.Empty;
+                        string HistorialFamiliarDiabetes = reader["HistorialFamiliarDiabetes"].ToString() ?? string.Empty;
+                        string ActividadFisica = reader["ActividadFisica"].ToString() ?? string.Empty;
+                        string HabitosAlimenticios = reader["HabitosAlimenticios"].ToString() ?? string.Empty;
+                        string NivelesEstres = reader["NivelesEstres"].ToString() ?? string.Empty;
+                        string OtrosFactores = reader["OtrosFactores"].ToString() ?? string.Empty;
 
-                    List<string> nuevaFila = new List<string>
+                        List<string> nuevaFila = new List<string>
                     {
                         PacienteID,
                         Nombre,
                         Apellido,
-                        Genero, Direccion, Telefono, Edad, FechaIngreso, FactorID, 
+                        Genero, Direccion, Telefono, Edad, FechaIngreso, FactorID,
                         HistorialFamiliarDiabetes,ActividadFisica,HabitosAlimenticios,NivelesEstres, OtrosFactores
                     };
 
-                    miArrayUE.Add(nuevaFila);
+                        miArrayUE.Add(nuevaFila);
 
+                    }
+
+                    conectar.InicioDesconexion();
+                    ViewBag.MiArrayUE = miArrayUE;
+                }
+                catch (Exception)
+                {
+
+                    throw;
                 }
 
-                conectar.InicioDesconexion();
-                ViewBag.MiArrayUE = miArrayUE;
-            }
-            catch (Exception)
-            {
+                return View();
 
-                throw;
             }
-            return View();
+            else { 
+                return RedirectToAction("Index", "Home");
+            }
+
+           
         }
 
 
 
         public IActionResult ResultadosLaboratorio(int? id, int? pagina, string? name)
         {
-            int numeroDePagina = pagina ?? 1;
+            if (HttpContext.Session.GetString("UsuarioActual") != null)
+            {
+                int numeroDePagina = pagina ?? 1;
             int registrosPorPagina = 50, totalPaginas = 0, total = 0;
 
 
@@ -172,16 +182,23 @@ namespace softwareDeGestión.Controllers
             {
                 return View();
             }
+
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
         }
 
 
 
         public IActionResult RegistroAlimentacion(int? id, int? pagina, string? name)
         {
-            int numeroDePagina = pagina ?? 1;
+            if (HttpContext.Session.GetString("UsuarioActual") != null)
+            {
+
+                int numeroDePagina = pagina ?? 1;
             int registrosPorPagina = 50, totalPaginas = 0, total = 0;
-
-
 
             var resultados = new List<RegistroAlimentacion>();
             try
@@ -253,15 +270,22 @@ namespace softwareDeGestión.Controllers
             {
                 return View();
             }
+
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
         }
 
 
         public IActionResult RegistroActividadFisica(int? id, int? pagina, string? name)
         {
-            int numeroDePagina = pagina ?? 1;
+            if (HttpContext.Session.GetString("UsuarioActual") != null)
+            {
+
+                int numeroDePagina = pagina ?? 1;
             int registrosPorPagina = 50, totalPaginas = 0, total = 0;
-
-
 
             var resultados = new List<RegistroActividadFisica>();
             try
@@ -333,16 +357,21 @@ namespace softwareDeGestión.Controllers
             {
                 return View();
             }
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
         }
 
 
 
         public IActionResult Prescripciones(int? id, int? pagina, string? name)
         {
-            int numeroDePagina = pagina ?? 1;
+            if (HttpContext.Session.GetString("UsuarioActual") != null)
+            {
+                int numeroDePagina = pagina ?? 1;
             int registrosPorPagina = 50, totalPaginas = 0, total = 0;
-
-
 
             var resultados = new List<Prescripciones>();
             try
@@ -415,6 +444,11 @@ namespace softwareDeGestión.Controllers
             {
                 return View();
             }
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
         }
 
 
@@ -422,7 +456,9 @@ namespace softwareDeGestión.Controllers
 
         public IActionResult DecisionesClinicas(int? id, int? pagina, string? name)
         {
-            int numeroDePagina = pagina ?? 1;
+            if (HttpContext.Session.GetString("UsuarioActual") != null)
+            {
+                int numeroDePagina = pagina ?? 1;
             int registrosPorPagina = 50, totalPaginas = 0, total = 0;
 
 
@@ -498,20 +534,27 @@ namespace softwareDeGestión.Controllers
             {
                 return View();
             }
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
 
         }
 
 
         public IActionResult HistorialMedico(int? id, int? pagina, string? name)
         {
-            int numeroDePagina = pagina ?? 1;
+            if (HttpContext.Session.GetString("UsuarioActual") != null)
+            {
+                int numeroDePagina = pagina ?? 1;
             int registrosPorPagina = 50, totalPaginas = 0, total = 0;
 
 
 
             var resultados = new List<HistorialMedico>();
-            /*try
-            {*/
+            try
+            {
 
                 string queryTotal = "select COUNT(*) as total from historial_medico WHERE PacienteID = @id ;";
                 conectar.InicioConexion();
@@ -578,11 +621,16 @@ namespace softwareDeGestión.Controllers
 
 
                 return View();
-            /*}
-            catch (Exception)
+                }
+                catch (Exception)
+                {
+                    return View();
+                }
+            }
+            else
             {
-                return View();
-            }*/
+                return RedirectToAction("Index", "Home");
+            }
 
         }
 
@@ -596,12 +644,12 @@ namespace softwareDeGestión.Controllers
         public IActionResult Medicamentos(int? pagina)
         {
 
-            if (HttpContext != null)
+            if (HttpContext.Session.GetString("UsuarioActual") != null)
             {
                 // Recuperar el nombre de usuario de la sesión
                 string? usuarioActual = HttpContext.Session.GetString("UsuarioActual");
                 ViewData["UsuarioActual"] = usuarioActual;
-            }
+            
 
             int numeroDePagina = pagina ?? 1;
             int registrosPorPagina = 5, totalPaginas = 0, total = 0;
@@ -656,6 +704,11 @@ namespace softwareDeGestión.Controllers
             {
                 return View();
             }
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
         }
 
         //--------------------//-----------------------//
@@ -663,7 +716,15 @@ namespace softwareDeGestión.Controllers
         //-------------------//-----------------------//
         public IActionResult NuevoMedicamento()
         {
-            return View();
+            if (HttpContext.Session.GetString("UsuarioActual") != null)
+            {
+                return View();
+
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
         }
 
         //--------------------//-----------------------//
@@ -671,7 +732,10 @@ namespace softwareDeGestión.Controllers
         //-------------------//-----------------------//
         public IActionResult EditarMedicamento(int id)
         {
-            List<List<string>> miArray = new List<List<string>>();
+            if (HttpContext.Session.GetString("UsuarioActual") != null)
+            {
+
+                List<List<string>> miArray = new List<List<string>>();
 
             conectar.InicioConexion();
             try
@@ -712,6 +776,12 @@ namespace softwareDeGestión.Controllers
             }
             conectar.InicioDesconexion();
             return View();
+
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
         }
 
         //--------------------//-----------------------//

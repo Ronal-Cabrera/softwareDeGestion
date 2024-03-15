@@ -36,7 +36,9 @@ namespace softwareDeGestión.Controllers
         //-------------------//-----------------------//
         public IActionResult Empleados(int? pagina)
         {
-            int numeroDePagina = pagina ?? 1;
+            if (HttpContext.Session.GetString("UsuarioActual") != null)
+            {
+                int numeroDePagina = pagina ?? 1;
             int registrosPorPagina = 50, totalPaginas = 0, total = 0;
 
             try
@@ -89,6 +91,11 @@ namespace softwareDeGestión.Controllers
             {
                 return View();
             }
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
         }
 
         //--------------------//-----------------------//
@@ -96,7 +103,14 @@ namespace softwareDeGestión.Controllers
         //-------------------//-----------------------//
         public IActionResult NuevoEmpleado()
         {
-            return View();
+            if (HttpContext.Session.GetString("UsuarioActual") != null)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
         }
 
         //--------------------//-----------------------//
@@ -104,7 +118,9 @@ namespace softwareDeGestión.Controllers
         //-------------------//-----------------------//
         public IActionResult EditarEmpleado(int id)
         {
-            List<List<string>> miArray = new List<List<string>>();
+            if (HttpContext.Session.GetString("UsuarioActual") != null)
+            {
+                List<List<string>> miArray = new List<List<string>>();
 
             conectar.InicioConexion();
             try
@@ -145,6 +161,11 @@ namespace softwareDeGestión.Controllers
             }
             conectar.InicioDesconexion();
             return View();
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
         }
 
         //--------------------//-----------------------//

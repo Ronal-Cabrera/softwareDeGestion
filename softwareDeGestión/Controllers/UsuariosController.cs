@@ -30,8 +30,9 @@ namespace softwareDeGestión.Controllers
         //-------------------//-----------------------//
         public IActionResult Index(int? pagina)
         {
-            
-            int numeroDePagina = pagina ?? 1;
+            if (HttpContext.Session.GetString("UsuarioActual") != null)
+            {
+                int numeroDePagina = pagina ?? 1;
             int registrosPorPagina = 50, totalPaginas = 0, total = 0;
             
 
@@ -102,6 +103,11 @@ namespace softwareDeGestión.Controllers
             catch (Exception)
             {
                 return View();
+            }
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
             }
         }
 
@@ -215,7 +221,9 @@ namespace softwareDeGestión.Controllers
         //-------------------//-----------------------//
         public IActionResult NuevoUsuario()
         {
-            List<List<string>> miArray = new List<List<string>>();
+            if (HttpContext.Session.GetString("UsuarioActual") != null)
+            {
+                List<List<string>> miArray = new List<List<string>>();
 
             conectar.InicioConexion();
             try
@@ -243,6 +251,11 @@ namespace softwareDeGestión.Controllers
             }
             conectar.InicioDesconexion();
             return View();
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
 
         }
 
@@ -317,8 +330,9 @@ namespace softwareDeGestión.Controllers
         //-------------------//-----------------------//
         public IActionResult EditarUsuario(int id)
         {
-
-            List<List<string>> miArrayUE = new List<List<string>>();
+            if (HttpContext.Session.GetString("UsuarioActual") != null)
+            {
+                List<List<string>> miArrayUE = new List<List<string>>();
 
             conectar.InicioConexion();
             try
@@ -355,6 +369,11 @@ namespace softwareDeGestión.Controllers
             }
             conectar.InicioDesconexion();
             return View();
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
         }
 
         //--------------------//-----------------------//

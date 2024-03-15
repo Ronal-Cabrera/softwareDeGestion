@@ -12,8 +12,8 @@
         .tablas{
             position: fixed;
             top: 175px;
-            left: 0;
-            right: 0;
+            left: 15px;
+            right: 15px;
             bottom: 100px;
         }
 
@@ -38,9 +38,9 @@
      @if (ViewData["UsuarioActual"] != null)
     {
         <header>
-            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3" style="background-color: cadetblue;">
             <div class="container-fluid">
-                    <a class="navbar-brand" asp-area="" asp-controller="Paciente" asp-action="Pacientes">softwareDeGestión</a>
+                    <a class="navbar-brand" asp-area="" asp-controller="Paciente" asp-action="Pacientes"><strong>SISTEMA</strong></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -58,10 +58,11 @@
                             </li>
                      
                     </ul>
-                        <span class="navbar-text">
-
+                        <span class="navbar-text mx-2">
                             <a class="nav-link text-dark p-0 m-0" asp-area="" asp-controller="Usuarios" asp-action="Index"><strong>Usuarios</strong></a>
-    
+                        </span>
+                        <span class="navbar-text mx-2">
+                            <a class="nav-link p-0 rounded m-0 bg-white px-2 text-black" asp-area="" asp-controller="Home" asp-action="CerrarSesion"><strong>Cerrar Session</strong></a>
                         </span>
                 </div>
             </div>
@@ -75,11 +76,14 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted fixed-bottom p-3" style="line-height: 5px;">
-        <div class="container-fluid">
+    @if (ViewData["UsuarioActual"] != null)
+    {
+        <footer class="border-top footer text-muted fixed-bottom p-3 text-black bg-white" style="line-height: 5px;">
+            <div class="container-fluid">
             <p class="text-center">&copy; 2024 - softwareDeGestión</p>
         </div>
     </footer>
+    }
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 

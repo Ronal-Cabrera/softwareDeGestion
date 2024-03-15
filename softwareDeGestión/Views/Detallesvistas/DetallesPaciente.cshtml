@@ -5,16 +5,19 @@
 
 <br />
 
-<h3 class="m-1 text-">Paciente: <strong>@ViewBag.MiArrayUE[0][1]</strong></h3>
-<a class="btn m-1 bg-primary text-white" asp-controller="Paciente" asp-action="Pacientes">Regresar</a>
-
-<span class="clearfix"></span>
-<a class="btn m-1 float-end bg-success text-white">Usuario Móvil</a>
-<span class="clearfix"></span>
 
 
 
 <div class="bg-white m-1 p-5" style="border: 1px solid;">
+
+    <div>
+        <h3 class="m-1 text-">Paciente: <strong>@ViewBag.MiArrayUE[0][1]</strong></h3>
+        <a class="btn m-1 bg-secondary text-white float-end" asp-controller="Paciente" asp-action="Pacientes">Regresar</a>
+
+        <span class="clearfix"></span>
+    </div>
+    <br />
+   
     <div class="row g-3 bg-white">  
 
         <div class="col-md-10 m-0 p-0">
@@ -74,6 +77,7 @@
             <label for="inputZip" class="form-label">Otros Factores</label>
             <input type="text" class="form-control" value="@ViewBag.MiArrayUE[0][13]" id="inputZip" disabled>
         </div>
+        
     </div>
 </div>
 
@@ -101,6 +105,8 @@
     <div class="col-md-4">
         <a href="@Url.Action("RegistroActividadFisica", "Detallesvistas", new { id = ViewBag.MiArrayUE[0][0], pagina="1", name=ViewBag.MiArrayUE[0][1] })" class="btn w-100 bg-secondary text-white">Actividades Fisicas</a>
     </div>
-
+    <div class="col-md-4">
+        <a class="btn w-100 bg-success text-white">Usuario Móvil</a>
+    </div>
 
 </div>

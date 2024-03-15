@@ -35,12 +35,12 @@ namespace softwareDeGestión.Controllers
         public IActionResult Pacientes()
         {
 
-            if (HttpContext != null)
+            if (HttpContext.Session.GetString("UsuarioActual") != null)
             {
                 // Recuperar el nombre de usuario de la sesión
                 string? usuarioActual = HttpContext.Session.GetString("UsuarioActual");
                 ViewData["UsuarioActual"] = usuarioActual;
-            }
+            
 
             try
             {
@@ -63,6 +63,11 @@ namespace softwareDeGestión.Controllers
             {
                 return View();
             }
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
         }
 
         //--------------------//-----------------------//
@@ -70,7 +75,14 @@ namespace softwareDeGestión.Controllers
         //-------------------//-----------------------//
         public IActionResult NuevoPaciente()
         {
-            return View();
+            if (HttpContext.Session.GetString("UsuarioActual") != null)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
         }
 
         //--------------------//-----------------------//
@@ -78,7 +90,9 @@ namespace softwareDeGestión.Controllers
         //-------------------//-----------------------//
         public IActionResult EditarPaciente(int id)
         {
-            List<List<string>> miArray = new List<List<string>>();
+            if (HttpContext.Session.GetString("UsuarioActual") != null)
+            {
+                List<List<string>> miArray = new List<List<string>>();
 
             conectar.InicioConexion();
             try
@@ -123,6 +137,11 @@ namespace softwareDeGestión.Controllers
             }
             conectar.InicioDesconexion();
             return View();
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
         }
 
         //--------------------//-----------------------//
