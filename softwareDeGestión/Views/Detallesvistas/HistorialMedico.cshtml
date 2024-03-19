@@ -20,20 +20,18 @@
     }
 </div>
 
-<br />
-<h2 class="float-end m-0 p-0"><strong>Historial Medico</strong></h2>
+<div class="div-title-vistas">
+    <h2 class="float-end m-0 p-0"><strong><i class="bi bi-person-lines-fill"></i> Historial Medico</strong></h2>
 <span class="clearfix"></span>
 <h3 class="float-end m-0 p-0"><strong>Paciente:</strong> @ViewBag.name</h3>
 
-<a href="@Url.Action("DetallesPaciente", "Detallesvistas", new { id = ViewBag.id })" class="btn bg-secondary text-white">Regresar</a>
+    <a href="@Url.Action("DetallesPaciente", "Detallesvistas", new { id = ViewBag.id })" style="background-color: teal;" class="btn text-white"><i class="bi bi-arrow-90deg-left"></i> Regresar</a>
 <!--<a class="btn bg-secondary text-white" asp-controller="DetallesVistas" asp-action="DetallesPaciente">Regresar</a>-->
-<a class="btn bg-secondary text-white" data-bs-toggle="modal" data-bs-target="#exampleModal">Agregar resultado</a>
+    <a class="btn text-white" data-bs-toggle="modal" style="background-color: teal;" data-bs-target="#exampleModal"><i class="bi bi-plus-circle"></i> Agregar resultado</a>
 <!--<a class="btn bg-secondary text-white" asp-controller="Usuarios" asp-action="Empleados">Ver Empleados</a>-->
 
-<br />
-<br />
-<p><strong>Total Paginas:</strong> @ViewBag.TotalPaginas, <strong>Datos por tabla:</strong> @ViewBag.DatosTabla1.Count</p>
-
+<p class="mt-2"><strong>Total Paginas:</strong> @ViewBag.TotalPaginas, <strong>Datos por tabla:</strong> @ViewBag.DatosTabla1.Count</p>
+</div>
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

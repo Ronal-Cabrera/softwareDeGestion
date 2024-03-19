@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - softwareDeGestión</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap-icons/font/bootstrap-icons.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/softwareDeGestión.styles.css" asp-append-version="true" />
 
@@ -12,17 +13,18 @@
         .tablas{
             position: fixed;
             top: 175px;
-            left: 15px;
-            right: 15px;
-            bottom: 100px;
+            left: 25px;
+            right: 25px;
+            bottom: 150px;
+            padding: 20px;
         }
 
         .pag{
             position: fixed;
             left: 0;
             right: 0;
-            bottom: 65px;
-            padding: 0 10px;
+            bottom: 115px;
+            padding: 0 25px;
         }
         
         .pag_a{
@@ -30,6 +32,10 @@
             padding: 2px 6px;
             border-radius: 5px;
             text-decoration: none;
+        }
+
+        .div-title-vistas{
+            margin: 50px 20px 0 20px;
         }
     </style>
 
@@ -51,18 +57,21 @@
                             
                         </li>
                         <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Paciente" asp-action="Pacientes">Pacientes</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Paciente" asp-action="Pacientes"> <i class="bi bi-person-fill"></i> Pacientes</a>
                         </li>
                         <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="DetallesVistas" asp-action="Medicamentos">Medicamentos</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="DetallesVistas" asp-action="Medicamentos"> <i class="bi bi-prescription2"></i> Medicamentos</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Paciente" asp-action="NuevoPaciente"> <i class="bi bi-person-fill-add"></i> Nuevo Paciente</a>
                             </li>
                      
                     </ul>
                         <span class="navbar-text mx-2">
-                            <a class="nav-link text-dark p-0 m-0" asp-area="" asp-controller="Usuarios" asp-action="Index"><strong>Usuarios</strong></a>
+                            <a class="nav-link text-dark p-0 m-0" asp-area="" asp-controller="Usuarios" asp-action="Index"><strong> <i class="bi bi-person-circle"></i> Usuarios</strong></a>
                         </span>
                         <span class="navbar-text mx-2">
-                            <a class="nav-link p-0 rounded m-0 bg-white px-2 text-black" asp-area="" asp-controller="Home" asp-action="CerrarSesion"><strong>Cerrar Session</strong></a>
+                            <a class="nav-link p-0 rounded m-0 bg-white px-2 text-black" asp-area="" asp-controller="Home" asp-action="CerrarSesion"><strong> <i class="bi bi-box-arrow-left"></i> Cerrar Session</strong></a>
                         </span>
                 </div>
             </div>

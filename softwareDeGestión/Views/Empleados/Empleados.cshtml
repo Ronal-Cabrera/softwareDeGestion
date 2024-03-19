@@ -24,10 +24,11 @@
 
 
 <br />
-<h1>Empleados</h1>
-<a class="btn bg-secondary text-white" asp-controller="Empleados" asp-action="NuevoEmpleado">Nuevo</a>
-<a class="btn bg-secondary text-white" asp-controller="Usuarios" asp-action="Index">Ver Usuarios</a>
-<br /><br />
+<div class="mt-5" style="padding:0 20px;">
+    <h1><i class="bi bi-person-vcard"></i> Empleados</h1>
+    <a class="btn bg-secondary text-white" asp-controller="Empleados" asp-action="NuevoEmpleado"><i class="bi bi-plus-circle"></i> Nuevo</a>
+    <a class="btn bg-secondary text-white" asp-controller="Usuarios" asp-action="Index"><i class="bi bi-people"></i> Ver Usuarios</a>
+</div>
 
 <div class="tablas bg-white overflow-auto">
 
@@ -55,13 +56,13 @@
                     <td>@Convert.ToString(Model.Rows[index]["direccion_empleado"])</td>
                     <td>@Convert.ToString(Model.Rows[index]["fecha_creacion_empleado"])</td>
 
-                    <td style="width:100px;">
-                        <a href="@Url.Action("EditarEmpleado", "Empleados", new { id = Model.Rows[index]["EmpleadoID"] })" class="btn btn-success">Editar</a>
+                    <td style="width:150px;">
+                        <a href="@Url.Action("EditarEmpleado", "Empleados", new { id = Model.Rows[index]["EmpleadoID"] })" class="btn btn-success"><i class="bi bi-pencil-square"></i> Editar</a>
                     </td>
-                    <td style="width:100px;">
+                    <td style="width:150px;">
                         <form asp-action="Eliminaremp" asp-controller="Empleados" method="post">
                             <input type="hidden" name="id" value="@Model.Rows[index]["EmpleadoID"]" />
-                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                            <button type="submit" class="btn btn-danger"><i class="bi bi-trash2"></i> Eliminar</button>
                         </form>
                     </td>
                     

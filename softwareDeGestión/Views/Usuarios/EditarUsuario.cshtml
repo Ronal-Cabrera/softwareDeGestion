@@ -6,10 +6,11 @@
 
 <br />
 
+<br /><br />
 
 <!-- Cuerpo del modal con el formulario -->
 <div class="container shadow p-4 mb-2 bg-white">
-    <h3 class="text-center">Editar usuario</h3>
+    <h3 class="text-center"><i class="bi bi-pen"></i> Editar usuario</h3>
     <form asp-controller="Usuarios" asp-action="Guardarupdateusuario" method="post">
         <input type="hidden" value="@ViewBag.MiArrayUE[0][0]" name="id" />
         <div class="mb-3">
@@ -18,8 +19,8 @@
             <span asp-validation-for="nombre_usuario" class="text-danger"></span>
         </div>
 
-        <button type="submit" class="btn btn-primary">Guardar</button>
-        <a class="btn bg-secondary float-end text-white" asp-controller="Usuarios" asp-action="Index">Regresar</a>
+        <button type="submit" class="btn btn-primary"><i class="bi bi-save"></i> Guardar</button>
+        <a class="btn bg-secondary float-end text-white" asp-controller="Usuarios" asp-action="Index"><i class="bi bi-arrow-90deg-left"></i> Regresar</a>
     </form>
 </div>
 
@@ -27,7 +28,7 @@
 
 
 <div class="container shadow p-4 mb-2 bg-white">
-    <h3 class="text-center">Editar contraseña</h3>
+    <h3 class="text-center"><i class="bi bi-pen"></i> Editar contraseña</h3>
     <form asp-controller="Usuarios" asp-action="Guardarupdatepass" method="post">
         <input type="hidden" value="@ViewBag.MiArrayUE[0][0]" name="id" />
         <div class="mb-3">
@@ -35,8 +36,8 @@
             <input id="password_usuario" type="password" name="cambio" class="form-control" placeholder="Nueva Contraseña.">
         </div>
 
-        <button type="submit" class="btn btn-primary">Guardar</button>
-        <a class="btn bg-secondary float-end text-white" asp-controller="Usuarios" asp-action="Index">Regresar</a>
+        <button type="submit" class="btn btn-primary"><i class="bi bi-save"></i> Guardar</button>
+        <a class="btn bg-secondary float-end text-white" asp-controller="Usuarios" asp-action="Index"><i class="bi bi-arrow-90deg-left"></i> Regresar</a>
     </form>
 </div>
 
@@ -44,7 +45,7 @@
 
 
 <div class="container shadow p-4 mb-2 bg-white">
-    <h3 class="text-center">Editar estado</h3>
+    <h3 class="text-center"><i class="bi bi-pen"></i> Editar estado</h3>
     <form asp-controller="Usuarios" asp-action="Guardarupdateestado" method="post">
         <input type="hidden" value="@ViewBag.MiArrayUE[0][0]" name="id" />
         <div class="mb-3">
@@ -55,8 +56,8 @@
             </select>
         </div>
             
-        <button type="submit" class="btn btn-primary">Guardar</button>
-        <a class="btn bg-secondary float-end text-white" asp-controller="Usuarios" asp-action="Index">Regresar</a>
+        <button type="submit" class="btn btn-primary"><i class="bi bi-save"></i> Guardar</button>
+        <a class="btn bg-secondary float-end text-white" asp-controller="Usuarios" asp-action="Index"><i class="bi bi-arrow-90deg-left"></i> Regresar</a>
     </form>
 </div>
 

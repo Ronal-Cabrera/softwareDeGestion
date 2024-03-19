@@ -32,7 +32,7 @@ namespace softwareDeGestión.Controllers
         //--------------------//-----------------------//
         //Cargar vista y lista PACIENTES
         //-------------------//-----------------------//
-        public IActionResult Pacientes()
+        public IActionResult Pacientes(int? pagina)
         {
 
             if (HttpContext.Session.GetString("UsuarioActual") != null)
@@ -40,29 +40,60 @@ namespace softwareDeGestión.Controllers
                 // Recuperar el nombre de usuario de la sesión
                 string? usuarioActual = HttpContext.Session.GetString("UsuarioActual");
                 ViewData["UsuarioActual"] = usuarioActual;
-            
 
-            try
-            {
-                string query = "select * from pacientes";
-                conectar.InicioConexion();
+                int numeroDePagina = pagina ?? 1;
+                int registrosPorPagina = 5, totalPaginas = 0, total = 0;
 
-                SqlCommand comando = new SqlCommand(query, conectar.conectar);
-                SqlDataAdapter informacionPE = new SqlDataAdapter();
-                informacionPE.SelectCommand = comando;
+                try
+                {
 
-                DataTable tablaPE = new DataTable();
-                informacionPE.Fill(tablaPE);
+                    string queryTotal = "select COUNT(*) as total from pacientes";
+                    conectar.InicioConexion();
+                    SqlCommand comando2 = new SqlCommand(queryTotal, conectar.conectar);
+                    using (SqlDataReader reader = comando2.ExecuteReader())
+                    {
+                        reader.Read();
+                        total = Convert.ToInt32(reader["total"]);
+                    }
+                    conectar.InicioDesconexion();
 
 
-                conectar.InicioDesconexion();
+                    if (total > registrosPorPagina)
+                    {
+                        /////total paginas
+                        double numero_total_productos = total;
+                        double resultado_divicion = numero_total_productos / 5.0;
+                        double resultadoRedondeado = Math.Ceiling(resultado_divicion);
+                        totalPaginas = (int)resultadoRedondeado;
+                    }
+                    else
+                    {
+                        totalPaginas = 1;
+                    }
 
-                return View(tablaPE);
-            }
-            catch (Exception)
-            {
-                return View();
-            }
+                    int? indicador_fila = registrosPorPagina * (numeroDePagina - 1);
+
+                    string query = "select * from pacientes ORDER BY PacienteID OFFSET " + indicador_fila + " ROWS FETCH NEXT " + registrosPorPagina + " ROWS ONLY";
+                    conectar.InicioConexion();
+
+                    SqlCommand comando = new SqlCommand(query, conectar.conectar);
+                    SqlDataAdapter informacionPE = new SqlDataAdapter();
+                    informacionPE.SelectCommand = comando;
+
+                    DataTable tablaPE = new DataTable();
+                    informacionPE.Fill(tablaPE);
+
+
+                    conectar.InicioDesconexion();
+                    ViewBag.PaginaActual = numeroDePagina;
+                    ViewBag.TotalPaginas = totalPaginas;
+
+                    return View(tablaPE);
+                }
+                catch (Exception)
+                {
+                    return View();
+                }
             }
             else
             {
@@ -77,6 +108,9 @@ namespace softwareDeGestión.Controllers
         {
             if (HttpContext.Session.GetString("UsuarioActual") != null)
             {
+                // Recuperar el nombre de usuario de la sesión
+                string? usuarioActual = HttpContext.Session.GetString("UsuarioActual");
+                ViewData["UsuarioActual"] = usuarioActual;
                 return View();
             }
             else

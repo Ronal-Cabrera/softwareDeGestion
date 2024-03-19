@@ -8,11 +8,11 @@
 
 
 
-<div class="bg-white m-1 p-5" style="border: 1px solid;">
+<div class="bg-white my-2 mx-5 p-5" style="border: 0px solid; border-radius:20px;">
 
     <div>
-        <h3 class="m-1 text-">Paciente: <strong>@ViewBag.MiArrayUE[0][1]</strong></h3>
-        <a class="btn m-1 bg-secondary text-white float-end" asp-controller="Paciente" asp-action="Pacientes">Regresar</a>
+        <h3 class="m-1 text-"><i class="bi bi-person-lines-fill"></i> Paciente: <strong>@ViewBag.MiArrayUE[0][1]</strong></h3>
+        <a class="btn m-1 bg-secondary text-white float-end" asp-controller="Paciente" asp-action="Pacientes"><i class="bi bi-arrow-90deg-left"></i> Regresar</a>
 
         <span class="clearfix"></span>
     </div>
@@ -24,7 +24,7 @@
             <h4><strong> • Detalles del Paciente.</strong></h4>
         </div>
         <div class="col-md-2 m-0 p-0">
-            <a class="btn w-100 bg-success text-white float-end">Editar Datos</a>
+            <a href="@Url.Action("EditarPaciente", "Paciente", new { id = ViewBag.MiArrayUE[0][0] })" class="btn w-100 text-white float-end" style="background-color: teal;"><i class="bi bi-pen-fill"></i> Editar Datos</a>
         </div>
         <div class="col-md-6 m-0">
             <label for="inputEmail4" class="form-label">Nombre</label>
@@ -82,7 +82,7 @@
 </div>
 
 <br /><br />
-<div class="row g-3">
+<div class="row g-3" style="margin: 0px 35px 40px 35px">
     <div class="col-md-4">
         <a href="@Url.Action("HistorialMedico", "Detallesvistas", new { id = ViewBag.MiArrayUE[0][0], pagina="1", name=ViewBag.MiArrayUE[0][1] })" class="btn w-100 bg-secondary text-white">Historial Medico</a>
     </div>
@@ -106,7 +106,7 @@
         <a href="@Url.Action("RegistroActividadFisica", "Detallesvistas", new { id = ViewBag.MiArrayUE[0][0], pagina="1", name=ViewBag.MiArrayUE[0][1] })" class="btn w-100 bg-secondary text-white">Actividades Fisicas</a>
     </div>
     <div class="col-md-4">
-        <a class="btn w-100 bg-success text-white">Usuario Móvil</a>
+        <a class="btn w-100 text-white" style="background-color: teal;">Usuario Móvil</a>
     </div>
 
 </div>

@@ -21,12 +21,13 @@
 </div>
 
 <br />
-<h1>Usuarios</h1>
-<a class="btn bg-secondary text-white" asp-controller="Usuarios" asp-action="NuevoUsuario">Nuevo</a>
-<a class="btn bg-secondary text-white" asp-controller="Empleados" asp-action="Empleados">Ver Empleados</a>
-<a class="btn bg-secondary text-white" asp-controller="Paciente" asp-action="Pacientes">Regresar</a>
-<br />
-<br />
+<div class="mt-5" style="padding:0 20px;">
+    <h1><i class="bi bi-person-fill"></i> Usuarios</h1>
+    <a class="btn btn-secondary" asp-controller="Usuarios" asp-action="NuevoUsuario"><i class="bi bi-person-fill-add"></i> Nuevo</a>
+    <a class="btn btn-secondary" asp-controller="Empleados" asp-action="Empleados"><i class="bi bi-person-vcard"></i> Ver Empleados</a>
+    <a class="btn btn-secondary" asp-controller="Paciente" asp-action="Pacientes"><i class="bi bi-arrow-90deg-left"></i> Regresar</a>
+</div>
+
 
 
 <div class="tablas bg-white overflow-auto">
@@ -52,14 +53,14 @@
                     <td>@ViewBag.DatosTabla1[index].rol_usuario</td>
                     <td>@ViewBag.DatosTabla1[index].fecha_creacion_usuario</td>
 
-                    <td style="width:100px;">
-                        <a href="@Url.Action("EditarUsuario", "Usuarios", new { id = ViewBag.DatosTabla1[index].codigo_usuario })" class="btn btn-success">Editar</a>
+                    <td style="width:150px;">
+                        <a href="@Url.Action("EditarUsuario", "Usuarios", new { id = ViewBag.DatosTabla1[index].codigo_usuario })" class="btn btn-secondary" ><i class="bi bi-person-lines-fill"></i> Editar</a>
                     </td>
 
-                    <td style="width:100px;">
+                    <td style="width:150px;">
                         <form asp-action="Eliminarusu" asp-controller="Usuarios" method="post">
                             <input type="hidden" name="id" value="@ViewBag.DatosTabla1[index].codigo_usuario" />
-                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                            <button type="submit" class="btn btn-danger"><i class="bi bi-person-dash-fill"></i> Eliminar</button>
                         </form>
                     </td>
                 </tr>

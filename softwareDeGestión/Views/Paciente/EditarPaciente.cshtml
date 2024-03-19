@@ -9,7 +9,7 @@
 
 <!-- Cuerpo del modal con el formulario -->
 <div class="container shadow p-5 bg-white">
-    <h3 class="text-center">Editar Empleado</h3>
+    <h3 class="text-center"><i class="bi bi-pen-fill"></i> Editar Paciente</h3>
     <form asp-controller="Paciente" asp-action="Guardarupdatepaci" method="post">
         <input type="hidden" value="@ViewBag.MiArray[0][0]" asp-for="PacienteID" />
         <div class="mb-3">
@@ -44,7 +44,7 @@
         </div>
 
 
-        <button type="submit" class="btn btn-primary">Guardar</button>
-        <a class="btn bg-secondary float-end text-white" asp-controller="Paciente" asp-action="Pacientes">Regresar</a>
+        <button type="submit" class="btn btn-primary"><i class="bi bi-save"></i> Guardar</button>
+        <a class="btn bg-secondary float-end text-white" asp-controller="Paciente" asp-action="Pacientes"><i class="bi bi-arrow-90deg-left"></i> Regresar</a>
     </form>
 </div>

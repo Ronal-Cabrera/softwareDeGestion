@@ -7,7 +7,7 @@
 
 
 <div class="pager-container pag">
-    <span class="px-2">Página @ViewBag.PaginaActual de @ViewBag.TotalPaginas</span>
+    <span>Página @ViewBag.PaginaActual de @ViewBag.TotalPaginas</span>
     @if (ViewBag.PaginaActual > 1)
     {
         <a class="pag_a" href="@Url.Action("Pacientes", new { @class="pag_a", pagina = ViewBag.PaginaActual - 1 })">Anterior</a>
@@ -24,7 +24,7 @@
 
 
 
-<h1>Pacientes</h1>
+<h3 class="" style="margin-top:75px; padding:0 15px;"><i class="bi bi-card-checklist"></i> Lista Pacientes</h3>
 
 
 <div class="tablas bg-white overflow-auto">

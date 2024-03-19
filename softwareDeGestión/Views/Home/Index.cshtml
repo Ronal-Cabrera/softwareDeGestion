@@ -13,19 +13,21 @@
         @Html.AntiForgeryToken()
         <div class="col-md-3 w-100 form-horizontal mb-4">
             <br />
+                <label class="mb-1">Usuario</label>
             @Html.TextBoxFor(x => x.Usuario,
                      new { @class = "form-control w-100", placeholder = "Ingrese Usuario.", autofocus = "autofocus" })
             @Html.ValidationMessageFor(x => x.Usuario, null, new { @class = "text-danger" })
             <br />
+                <label class="mb-1">Contraseña</label>
             @Html.PasswordFor(x => x.Contra,
                      new { @class = "form-control w-100", placeholder = "Ingrese Contraseña." })
             @Html.ValidationMessageFor(x => x.Contra, null, new { @class = "text-danger" })
         </div>
 
-        <div class="col-md-3 w-100 form-horizontal">
+        <div class="col-md-3 w-100 d-flex justify-content-center">
 
             <button class="btn btn-primary" type="submit">
-                Verificar
+                    <i class="bi bi-box-arrow-right"></i> Verificar
             </button>
 
         </div>

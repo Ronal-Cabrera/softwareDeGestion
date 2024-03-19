@@ -228,7 +228,7 @@ namespace softwareDeGestión.Controllers
             conectar.InicioConexion();
             try
             {
-                string query = "select * from empleados LEFT JOIN usuarios ON empleados.EmpleadoID != usuarios.EmpleadoID";
+                string query = "select * from empleados LEFT JOIN usuarios ON empleados.EmpleadoID = usuarios.EmpleadoID WHERE usuarios.EmpleadoID IS NULL;";
                 SqlCommand comando = new SqlCommand(query, conectar.conectar);
                 
                 using (SqlDataReader reader = comando.ExecuteReader())
@@ -310,7 +310,7 @@ namespace softwareDeGestión.Controllers
             conectar.InicioConexion();
             try
             {
-                string query = "DELETE FROM usuarios WHERE EmpleadoID = @id";
+                string query = "DELETE FROM usuarios WHERE codigo_usuario = @id";
                 SqlCommand comando = new SqlCommand(query, conectar.conectar);
                 comando.Parameters.AddWithValue("@id", id);
                 comando.ExecuteNonQuery();
