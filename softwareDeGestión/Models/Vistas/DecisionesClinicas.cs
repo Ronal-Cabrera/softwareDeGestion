@@ -10,6 +10,8 @@ namespace softwareDeGestión.Models.Vistas
 
         public int? DecisionID { get; set; }
         public string? PacienteID { get; set; }
+        public string? name { get; set; }
+
         public string? FechaDecision { get; set; }
 
         [Required(ErrorMessage = "Dato requerido")]

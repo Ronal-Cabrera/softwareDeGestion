@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Registro Alimenticio.";
 }
-
+<p class="mt-2 detalles"><strong>Total Paginas:</strong> @ViewBag.TotalPaginas, <strong>Datos por tabla:</strong> @ViewBag.DatosTabla1.Count</p>
 <div class="pager-container pag">
     <span class="px-2">Página @ViewBag.PaginaActual de @ViewBag.TotalPaginas</span>
     @if (ViewBag.PaginaActual > 1)
@@ -20,55 +20,56 @@
     }
 </div>
 
-<br />
-<h2 class="float-end m-0 p-0"><strong>Registro Alimenticio</strong></h2>
+<div class="div-title-vistas">
+    <h2 class="float-end m-0 p-0"><strong><i class="bi bi-person-lines-fill"></i> Registro Alimenticio</strong></h2>
 <span class="clearfix"></span>
 <h3 class="float-end m-0 p-0"><strong>Paciente:</strong> @ViewBag.name</h3>
 
-<a href="@Url.Action("DetallesPaciente", "Detallesvistas", new { id = ViewBag.id })" class="btn bg-secondary text-white">Regresar</a>
+    <a href="@Url.Action("DetallesPaciente", "Detallesvistas", new { id = ViewBag.id })" class="btn text-white" style="background-color: teal;"><i class="bi bi-arrow-90deg-left"></i> Regresar</a>
 <!--<a class="btn bg-secondary text-white" asp-controller="DetallesVistas" asp-action="DetallesPaciente">Regresar</a>-->
-<a class="btn bg-secondary text-white" data-bs-toggle="modal" data-bs-target="#exampleModal">Agregar resultado</a>
+<a class="btn text-white" style="background-color: teal;" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="bi bi-plus-circle"></i> Agregar resultado</a>
 <!--<a class="btn bg-secondary text-white" asp-controller="Usuarios" asp-action="Empleados">Ver Empleados</a>-->
 
-<br />
-<br />
-<p><strong>Total Paginas:</strong> @ViewBag.TotalPaginas, <strong>Datos por tabla:</strong> @ViewBag.DatosTabla1.Count</p>
-
+</div>
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Nuevo Resultado</h1>
+                <h1 class="modal-title text-center fs-5" id="exampleModalLabel"><i class="bi bi-file-earmark-plus"></i> Agregar Registro de alimentación</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form>
-                <input type="hidden" name="id" value="@ViewBag.id" />
+            <form asp-controller="Detallesvistas" asp-action="Guardarralimentacion" method="post">
+                <input type="hidden" asp-for="PacienteID" value="@ViewBag.id" />
+                <input type="hidden" asp-for="name" value="@ViewBag.name" />
                 <div class="modal-body">
 
                     <div class="mb-2">
-                        <label for="glucosa" class="form-label">Nivel Glucosa</label>
-                        <input type="number" step="0.2" class="form-control" id="glucosa" required>
+                        <label asp-for="DescripcionComidas" class="form-label">Descripcion Comidas</label>
+                        <input asp-for="DescripcionComidas" class="form-control" id="glucosa">
+                        <span asp-validation-for="DescripcionComidas" class="text-danger"></span>
                     </div>
                     <div class="mb-2">
-                        <label for="Comentarios" class="form-label">Comentarios</label>
-                        <input type="text" class="form-control" id="Comentarios" required minLength="3">
+                        <label asp-for="ConteoCarbohidratos" class="form-label">Conteo Carbohidratos</label>
+                        <input asp-for="ConteoCarbohidratos" class="form-control" id="Comentarios">
+                        <span asp-validation-for="ConteoCarbohidratos" class="text-danger"></span>
                     </div>
-                    <div class="mb-4">
-                        <label for="otros" class="form-label">Otros Resultados</label>
-                        <input type="text" class="form-control" id="otros" required minLength="3" maxLength="200">
+                    <div class="mb-2">
+                        <label asp-for="ObservacionesAlimentacion" class="form-label">Observaciones Alimentación</label>
+                        <input asp-for="ObservacionesAlimentacion" class="form-control" id="otros">
+                        <span asp-validation-for="ObservacionesAlimentacion" class="text-danger"></span>
                     </div>
 
                 </div>
+
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Guardar</button>
+                    <button type="submit" class="btn text-white" style="background-color:teal;"><i class="bi bi-save"></i> Guardar Información</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
-
 
 <div class="tablas bg-white overflow-auto">
     <table class="table table-hover">

@@ -6,6 +6,7 @@ using softwareDeGestión.Models;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 using Microsoft.AspNetCore.Identity;
 using softwareDeGestión.Models.Paciente;
+using softwareDeGestión.Models.Vistas;
 
 namespace softwareDeGestión.Controllers
 {
@@ -148,15 +149,15 @@ namespace softwareDeGestión.Controllers
                     string tel = reader["Telefono"]?.ToString() ?? string.Empty;
 
                     List<string> nuevaFila = new List<string>
-            {
-                cod,
-                nombre,
-                apellido,
-                edad,
-                genero,
-                direccion,
-                tel
-            };
+                    {
+                        cod,
+                        nombre,
+                        apellido,
+                        edad,
+                        genero,
+                        direccion,
+                        tel
+                    };
 
                     miArray.Add(nuevaFila);
 
@@ -184,13 +185,16 @@ namespace softwareDeGestión.Controllers
         [HttpPost]
         public IActionResult Guardarpaciente(Paciente datos)
         {
+            int pacienteID = 0;
+
             if (ModelState.IsValid)
             {
+               
                 conectar.InicioConexion();
                 try
                 {
                     DateTime fechaActual = DateTime.Now;
-                    string query = "INSERT INTO pacientes (Nombre, Apellido, Edad, Genero, Direccion,Telefono,FechaIngreso) VALUES (@name, @lastname, @edad, @genero, @dire, @tel, @fecha)";
+                    string query = "INSERT INTO pacientes (Nombre, Apellido, Edad, Genero, Direccion,Telefono,FechaIngreso) VALUES (@name, @lastname, @edad, @genero, @dire, @tel, @fecha); SELECT SCOPE_IDENTITY();";
                     SqlCommand cmd = new SqlCommand(query, conectar.conectar);
 
                     cmd.Parameters.AddWithValue("@name", datos.Nombre);
@@ -200,16 +204,36 @@ namespace softwareDeGestión.Controllers
                     cmd.Parameters.AddWithValue("@dire", datos.Direccion);
                     cmd.Parameters.AddWithValue("@tel", datos.Telefono);
                     cmd.Parameters.AddWithValue("@fecha", fechaActual);
-                    cmd.ExecuteNonQuery();
+                    //cmd.ExecuteNonQuery();
+
+                    pacienteID = Convert.ToInt32(cmd.ExecuteScalar());
+
                 }
                 catch (Exception)
                 {
-                    Console.WriteLine("Error al guardar los datos.");
+                    Console.WriteLine("Error al guardar Paciente.");
+                }
+                conectar.InicioDesconexion();
+
+                conectar.InicioConexion();
+                try
+                {
+                    DateTime fechaActual = DateTime.Now;
+                    string query = "INSERT INTO factores_riesgo (PacienteID) VALUES (@id);";
+                    SqlCommand cmd = new SqlCommand(query, conectar.conectar);
+
+                    cmd.Parameters.AddWithValue("@id", pacienteID);
+                    cmd.ExecuteNonQuery();
+
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("Error al guardar Riesgos.");
                 }
                 conectar.InicioDesconexion();
             }
 
-            return RedirectToAction("Pacientes", "Usuarios");
+            return RedirectToAction("DetallesPaciente", "Detallesvistas", new { id = pacienteID });
 
         }
 
@@ -245,7 +269,7 @@ namespace softwareDeGestión.Controllers
                 conectar.InicioDesconexion();
             }
 
-            return RedirectToAction("Pacientes", "Usuarios");
+            return RedirectToAction("DetallesPaciente", "Detallesvistas", new { id = datos.PacienteID });
 
         }
 
@@ -270,7 +294,113 @@ namespace softwareDeGestión.Controllers
 
             conectar.InicioDesconexion();
 
-            return RedirectToAction("Pacientes", "Usuarios"); // Puedes redirigir a la acción Index u otra página según tu aplicación.
+            return RedirectToAction("Pacientes", "Paciente"); // Puedes redirigir a la acción Index u otra página según tu aplicación.
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //--------------------//-----------------------//
+        //Cargar vista FORMULARIO editar PACIENTE
+        //-------------------//-----------------------//
+        public IActionResult EditarFactoresRiesgo(int id)
+        {
+            if (HttpContext.Session.GetString("UsuarioActual") != null)
+            {
+                List<List<string>> miArray = new List<List<string>>();
+
+                conectar.InicioConexion();
+                try
+                {
+                    string query = "select * from factores_riesgo WHERE PacienteID = @id";
+                    SqlCommand comando = new SqlCommand(query, conectar.conectar);
+                    comando.Parameters.AddWithValue("@id", id);
+
+                    using (SqlDataReader reader = comando.ExecuteReader())
+                    {
+                        reader.Read();
+
+                        string FactorID = reader["FactorID"]?.ToString() ?? string.Empty;
+                        string HistorialFamiliarDiabetes = reader["HistorialFamiliarDiabetes"]?.ToString() ?? string.Empty;
+                        string ActividadFisica = reader["ActividadFisica"]?.ToString() ?? string.Empty;
+                        string HabitosAlimenticios = reader["HabitosAlimenticios"]?.ToString() ?? string.Empty;
+                        string NivelesEstres = reader["NivelesEstres"]?.ToString() ?? string.Empty;
+                        string OtrosFactores = reader["OtrosFactores"]?.ToString() ?? string.Empty;
+
+                        List<string> nuevaFila = new List<string>
+                        {
+                            FactorID,
+                            HistorialFamiliarDiabetes,
+                            ActividadFisica,
+                            HabitosAlimenticios,
+                            NivelesEstres,
+                            OtrosFactores
+                        };
+
+                        miArray.Add(nuevaFila);
+
+                    }
+
+                    ViewBag.MiArray = miArray;
+                    Console.WriteLine(miArray);
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("Error al cargar para editar.");
+                }
+                conectar.InicioDesconexion();
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
+        }
+
+       
+        //--------------------//-----------------------//
+        //Guardar datos de FORMULARIO nuevo EMPLEADO
+        //-------------------//-----------------------//
+        [HttpPost]
+        public IActionResult Guardarupdateriesgo(FactoresRiesgo datos)
+        {
+            if (ModelState.IsValid)
+            {
+                conectar.InicioConexion();
+                try
+                {
+                    string query = "UPDATE factores_riesgo SET HistorialFamiliarDiabetes = @HistorialFamiliarDiabetes, ActividadFisica = @ActividadFisica, HabitosAlimenticios = @HabitosAlimenticios, NivelesEstres = @NivelesEstres, " +
+                        "OtrosFactores = @OtrosFactores WHERE PacienteID = @id";
+
+                    SqlCommand cmd = new SqlCommand(query, conectar.conectar);
+
+                    cmd.Parameters.AddWithValue("@HistorialFamiliarDiabetes", datos.HistorialFamiliarDiabetes);
+                    cmd.Parameters.AddWithValue("@ActividadFisica", datos.ActividadFisica);
+                    cmd.Parameters.AddWithValue("@HabitosAlimenticios", datos.HabitosAlimenticios);
+                    cmd.Parameters.AddWithValue("@NivelesEstres", datos.NivelesEstres);
+                    cmd.Parameters.AddWithValue("@OtrosFactores", datos.OtrosFactores);
+                    cmd.Parameters.AddWithValue("@id", datos.PacienteID);
+                    cmd.ExecuteNonQuery();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Error al actualizar los datos." + e.Message);
+                }
+                conectar.InicioDesconexion();
+            }
+
+            return RedirectToAction("DetallesPaciente", "Detallesvistas", new { id = datos.PacienteID });
+
         }
     }
 }

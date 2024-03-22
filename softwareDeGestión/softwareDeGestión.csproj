@@ -27,4 +27,8 @@
     <None Include="Views\Usuarios\Pacientes.cshtml" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\pdf\" />
+  </ItemGroup>
+
 </Project>

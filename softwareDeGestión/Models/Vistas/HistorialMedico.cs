@@ -10,6 +10,10 @@ namespace softwareDeGestión.Models.Vistas
 
         public int? HistorialID { get; set; }
 
+        public int? PacienteID { get; set; }
+
+        public string? name { get; set; }
+
         public string? FechaConsulta { get; set; }
 
         [Required(ErrorMessage = "Peso es requerido")]

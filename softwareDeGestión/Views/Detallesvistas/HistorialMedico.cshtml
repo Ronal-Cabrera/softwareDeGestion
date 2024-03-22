@@ -4,6 +4,8 @@
     ViewData["Title"] = "Historial Medico.";
 }
 
+<p class="mt-2 detalles"><strong>Total Paginas:</strong> @ViewBag.TotalPaginas, <strong>Datos por tabla:</strong> @ViewBag.DatosTabla1.Count</p>
+
 <div class="pager-container pag">
     <span class="px-2">Página @ViewBag.PaginaActual de @ViewBag.TotalPaginas</span>
     @if (ViewBag.PaginaActual > 1)
@@ -30,7 +32,6 @@
     <a class="btn text-white" data-bs-toggle="modal" style="background-color: teal;" data-bs-target="#exampleModal"><i class="bi bi-plus-circle"></i> Agregar resultado</a>
 <!--<a class="btn bg-secondary text-white" asp-controller="Usuarios" asp-action="Empleados">Ver Empleados</a>-->
 
-<p class="mt-2"><strong>Total Paginas:</strong> @ViewBag.TotalPaginas, <strong>Datos por tabla:</strong> @ViewBag.DatosTabla1.Count</p>
 </div>
 
 <!-- Modal -->
@@ -38,29 +39,53 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Nuevo Resultado</h1>
+                <h1 class="modal-title text-center fs-5" id="exampleModalLabel"><i class="bi bi-file-earmark-plus"></i> Agregar historial medico</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form>
-                <input type="hidden" name="id" value="@ViewBag.id" />
+            <form asp-controller="Detallesvistas" asp-action="Guardarhmedico" method="post">
+                <input type="hidden" asp-for="PacienteID" value="@ViewBag.id" />
+                <input type="hidden" asp-for="name" value="@ViewBag.name" />
                 <div class="modal-body">
 
                     <div class="mb-2">
-                        <label for="glucosa" class="form-label">Nivel Glucosa</label>
-                        <input type="number" step="0.2" class="form-control" id="glucosa" required>
+                        <label asp-for="Peso" class="form-label">Peso</label>
+                        <input asp-for="Peso" class="form-control" id="glucosa">
+                        <span asp-validation-for="Peso" class="text-danger"></span>
                     </div>
                     <div class="mb-2">
-                        <label for="Comentarios" class="form-label">Comentarios</label>
-                        <input type="text" class="form-control" id="Comentarios" required minLength="3">
+                        <label asp-for="Altura" class="form-label">Altura</label>
+                        <input asp-for="Altura" class="form-control" id="Comentarios">
+                        <span asp-validation-for="Altura" class="text-danger"></span>
                     </div>
-                    <div class="mb-4">
-                        <label for="otros" class="form-label">Otros Resultados</label>
-                        <input type="text" class="form-control" id="otros" required minLength="3" maxLength="200">
+                    <div class="mb-2">
+                        <label asp-for="TipoDiabetes" class="form-label">Tipo diabetes</label>
+                        <select asp-for="TipoDiabetes" class="form-control">
+                            <option value="Tipo 1">Tipo 1</option>
+                            <option value="Tipo 2">Tipo 2</option>
+                            <option value="Tipo 3">Tipo 3</option>
+                        </select>
+                        <span asp-validation-for="TipoDiabetes" class="text-danger"></span>
+                    </div>
+                    <div class="mb-2">
+                        <label asp-for="PresionArterial" class="form-label">Precion arterial</label>
+                        <input asp-for="PresionArterial" class="form-control" id="otros">
+                        <span asp-validation-for="PresionArterial" class="text-danger"></span>
+                    </div>
+                    <div class="mb-2">
+                        <label asp-for="AntecedentesFamiliares" class="form-label">Antecendentes familiales</label>
+                        <input asp-for="AntecedentesFamiliares" class="form-control" id="otros">
+                        <span asp-validation-for="AntecedentesFamiliares" class="text-danger"></span>
+                    </div>
+                    <div class="mb-2">
+                        <label asp-for="OtrosAntecedentes" class="form-label">Otros Antecedentes</label>
+                        <input asp-for="OtrosAntecedentes" class="form-control" id="otros">
+                        <span asp-validation-for="OtrosAntecedentes" class="text-danger"></span>
                     </div>
 
                 </div>
+
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Guardar</button>
+                    <button type="submit" class="btn text-white" style="background-color:teal;"><i class="bi bi-save"></i> Guardar Información</button>
                 </div>
             </form>
         </div>

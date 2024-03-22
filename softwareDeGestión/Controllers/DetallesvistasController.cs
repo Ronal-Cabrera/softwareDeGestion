@@ -5,10 +5,11 @@ using softwareDeGestión.Models.Usuarios;
 using softwareDeGestión.Models.Vistas;
 using System.Data;
 using System.Data.SqlClient;
-
+using Microsoft.AspNetCore.Hosting;
 
 using Microsoft.AspNetCore.Http;
 using softwareDeGestión.Models.Paciente;
+using System;
 
 
 namespace softwareDeGestión.Controllers
@@ -17,15 +18,17 @@ namespace softwareDeGestión.Controllers
     {
 
         private readonly IConfiguration _configuration;
+        private readonly IWebHostEnvironment _hostingEnvironment;
         //private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public DetallesvistasController(IConfiguration configuration)
+        public DetallesvistasController(IConfiguration configuration, IWebHostEnvironment environment)
         {
             _configuration = configuration;
+            _hostingEnvironment = environment;
             //_httpContextAccessor = httpContextAccessor;
         }
         ConexionDB conectar = new ConexionDB();
-
+            
 
         public IActionResult Index()
         {
@@ -189,7 +192,64 @@ namespace softwareDeGestión.Controllers
                 return RedirectToAction("Index", "Home");
             }
         }
+        //--------------------//-----------------------//
+        //Guardar NEW datos Decisiones clinicas
+        //-------------------//-----------------------//
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Guardarrlaboratorio(ResultadosLaboratorio datos)
+        {
 
+            if (ModelState.IsValid)
+            {
+                conectar.InicioConexion();
+                try
+                {
+                    /*
+                    if (FileUpload != null && FileUpload.Length > 0)
+                    {
+                        if (FileUpload.FileName.EndsWith(".pdf", System.StringComparison.OrdinalIgnoreCase))
+                        {
+                            var uploadsPath = Path.Combine(_hostingEnvironment.WebRootPath, "pdf");
+
+                            if (!Directory.Exists(uploadsPath))
+                            {
+                                Directory.CreateDirectory(uploadsPath);
+                            }
+
+                            var filePath = Path.Combine(uploadsPath, FileUpload.FileName);
+                            using (var stream = new FileStream(filePath, FileMode.Create))
+                            {
+                                FileUpload.CopyTo(stream);
+                            }
+                        }
+
+                    }
+                    */
+
+
+                    DateTime fechaActual = DateTime.Now;
+                    string query = "INSERT INTO resultados_laboratorio (PacienteID, FechaControl, NivelGlucosa, Comentarios, OtrosResultados) VALUES (@PacienteID, @FechaControl, @NivelGlucosa, @Comentarios, @OtrosResultados);";
+                    SqlCommand cmd = new SqlCommand(query, conectar.conectar);
+
+                    cmd.Parameters.AddWithValue("@PacienteID", datos.PacienteID);
+                    cmd.Parameters.AddWithValue("@FechaControl", fechaActual);
+                    cmd.Parameters.AddWithValue("@NivelGlucosa", datos.NivelGlucosa);
+                    cmd.Parameters.AddWithValue("@Comentarios", datos.Comentarios);
+                    cmd.Parameters.AddWithValue("@OtrosResultados", datos.OtrosResultados);
+                    cmd.ExecuteNonQuery();
+
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Error al guardar ResultadosLaboratorio." + e.Message);
+                }
+                conectar.InicioDesconexion();
+            }
+
+            return RedirectToAction("ResultadosLaboratorio", "Detallesvistas", new { id = datos.PacienteID, pagina = "1", name = datos.name });
+
+        }
 
 
         public IActionResult RegistroAlimentacion(int? id, int? pagina, string? name)
@@ -277,6 +337,43 @@ namespace softwareDeGestión.Controllers
                 return RedirectToAction("Index", "Home");
             }
         }
+        //--------------------//-----------------------//
+        //Guardar NEW datos Decisiones clinicas
+        //-------------------//-----------------------//
+        [HttpPost]
+        public IActionResult Guardarralimentacion(RegistroAlimentacion datos)
+        {
+
+            if (ModelState.IsValid)
+            {
+
+                conectar.InicioConexion();
+                try
+                {
+                    DateTime fechaActual = DateTime.Now;
+                    string query = "INSERT INTO registro_alimentacion (PacienteID, FechaRegistro, DescripcionComidas, ConteoCarbohidratos, ObservacionesAlimentacion) VALUES (@PacienteID, @FechaRegistro, @DescripcionComidas, @ConteoCarbohidratos, @ObservacionesAlimentacion);";
+                    SqlCommand cmd = new SqlCommand(query, conectar.conectar);
+
+                    cmd.Parameters.AddWithValue("@PacienteID", datos.PacienteID);
+                    cmd.Parameters.AddWithValue("@FechaRegistro", fechaActual);
+                    cmd.Parameters.AddWithValue("@DescripcionComidas", datos.DescripcionComidas);
+                    cmd.Parameters.AddWithValue("@ConteoCarbohidratos", datos.ConteoCarbohidratos);
+                    cmd.Parameters.AddWithValue("@ObservacionesAlimentacion", datos.ObservacionesAlimentacion);
+                    cmd.ExecuteNonQuery();
+
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("Error al guardar registro alimenticio.");
+                }
+                conectar.InicioDesconexion();
+
+            }
+
+            return RedirectToAction("RegistroAlimentacion", "Detallesvistas", new { id = datos.PacienteID, pagina = "1", name = datos.name });
+
+        }
+
 
 
         public IActionResult RegistroActividadFisica(int? id, int? pagina, string? name)
@@ -363,6 +460,42 @@ namespace softwareDeGestión.Controllers
                 return RedirectToAction("Index", "Home");
             }
         }
+        //--------------------//-----------------------//
+        //Guardar NEW datos Decisiones clinicas
+        //-------------------//-----------------------//
+        [HttpPost]
+        public IActionResult Guardarrafisica(RegistroActividadFisica datos)
+        {
+
+            if (ModelState.IsValid)
+            {
+
+                conectar.InicioConexion();
+                try
+                {
+                    DateTime fechaActual = DateTime.Now;
+                    string query = "INSERT INTO registro_actividad_fisica (PacienteID, FechaRegistro, TipoActividad, DuracionActividad, IntensidadActividad) VALUES (@PacienteID, @FechaRegistro, @TipoActividad, @DuracionActividad, @IntensidadActividad);";
+                    SqlCommand cmd = new SqlCommand(query, conectar.conectar);
+
+                    cmd.Parameters.AddWithValue("@PacienteID", datos.PacienteID);
+                    cmd.Parameters.AddWithValue("@FechaRegistro", fechaActual);
+                    cmd.Parameters.AddWithValue("@TipoActividad", datos.TipoActividad);
+                    cmd.Parameters.AddWithValue("@DuracionActividad", datos.DuracionActividad);
+                    cmd.Parameters.AddWithValue("@IntensidadActividad", datos.IntensidadActividad);
+                    cmd.ExecuteNonQuery();
+
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("Error al guardar Registro Actividad Fisica.");
+                }
+                conectar.InicioDesconexion();
+
+            }
+
+            return RedirectToAction("RegistroActividadFisica", "Detallesvistas", new { id = datos.PacienteID, pagina = "1", name = datos.name });
+
+        }
 
 
 
@@ -416,7 +549,12 @@ namespace softwareDeGestión.Controllers
                         var fila = new Prescripciones
                         {
                             PrescripcionID = Convert.ToInt32(reader["PrescripcionID"]),
+
                             NombreMedicamento = reader["NombreMedicamento"].ToString(),
+                            DescripcionMedicamento = reader["DescripcionMedicamento"].ToString(),
+                            InstruccionesUso = reader["InstruccionesUso"].ToString(),
+                            EfectosSecundarios = reader["EfectosSecundarios"].ToString(),
+
                             FechaPrescripcion = reader["FechaPrescripcion"].ToString(),
                             DosisPrescrita = reader["DosisPrescrita"].ToString(),
                             DuracionPrescripcion = reader["DuracionPrescripcion"].ToString(),
@@ -438,7 +576,26 @@ namespace softwareDeGestión.Controllers
                 ViewBag.id = id;
 
 
-                return View();
+                    List<List<string>> miArray = new List<List<string>>();
+                    conectar.InicioConexion();
+
+                        string query_m = "select * from medicamentos;";
+                        SqlCommand comando_m = new SqlCommand(query_m, conectar.conectar);
+                        using (SqlDataReader reader = comando_m.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                string cod = reader["MedicamentoID"]?.ToString() ?? string.Empty;
+                                string nombre = reader["NombreMedicamento"]?.ToString() ?? string.Empty;
+
+                                miArray.Add(new List<string> { cod, nombre });
+                            }
+                        }
+                        ViewBag.MiArray = miArray;
+                    conectar.InicioDesconexion();
+
+
+                    return View();
             }
             catch (Exception)
             {
@@ -450,7 +607,40 @@ namespace softwareDeGestión.Controllers
                 return RedirectToAction("Index", "Home");
             }
         }
+        //--------------------//-----------------------//
+        //Guardar NEW datos Decisiones clinicas
+        //-------------------//-----------------------//
+        [HttpPost]
+        public IActionResult Guardarpres(Prescripciones datos)
+        {
 
+            if (ModelState.IsValid)
+            {
+                conectar.InicioConexion();
+                try
+                {
+                    DateTime fechaActual = DateTime.Now;
+                    string query = "INSERT INTO prescripciones (PacienteID, MedicamentoID, FechaPrescripcion, DosisPrescrita, DuracionPrescripcion, NotasAdicionales) VALUES (@PacienteID, @MedicamentoID, @FechaPrescripcion, @DosisPrescrita, @DuracionPrescripcion, @NotasAdicionales);";
+                    SqlCommand cmd = new SqlCommand(query, conectar.conectar);
+
+                    cmd.Parameters.AddWithValue("@PacienteID", datos.PacienteID);
+                    cmd.Parameters.AddWithValue("@MedicamentoID", datos.MedicamentoID);
+                    cmd.Parameters.AddWithValue("@FechaPrescripcion", fechaActual);
+                    cmd.Parameters.AddWithValue("@DosisPrescrita", datos.DosisPrescrita);
+                    cmd.Parameters.AddWithValue("@DuracionPrescripcion", datos.DuracionPrescripcion);
+                    cmd.Parameters.AddWithValue("@NotasAdicionales", datos.NotasAdicionales);
+                    cmd.ExecuteNonQuery();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Error al guardar Prescripciones." + e.Message);
+                }
+                conectar.InicioDesconexion();
+            }
+
+            return RedirectToAction("Prescripciones", "Detallesvistas", new { id = datos.PacienteID, pagina = "1", name = datos.name });
+
+        }
 
 
 
@@ -539,6 +729,44 @@ namespace softwareDeGestión.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
+
+        }
+        //--------------------//-----------------------//
+        //Guardar NEW datos Decisiones clinicas
+        //-------------------//-----------------------//
+        [HttpPost]
+        public IActionResult Guardardclinicas(DecisionesClinicas datos)
+        {
+
+            if (ModelState.IsValid)
+            {
+
+                conectar.InicioConexion();
+                try
+                {
+                    DateTime fechaActual = DateTime.Now;
+                    string query = "INSERT INTO decisiones_clinicas (PacienteID, FechaDecision, TratamientosRecomendados, MedicamentosRecetados, CambiosEstiloVida, SeguimientoProximasCitas) VALUES (@PacienteID, @FechaDecision, @TratamientosRecomendados, @MedicamentosRecetados, @CambiosEstiloVida, @SeguimientoProximasCitas);";
+                    SqlCommand cmd = new SqlCommand(query, conectar.conectar);
+
+                    cmd.Parameters.AddWithValue("@PacienteID", datos.PacienteID);
+                    cmd.Parameters.AddWithValue("@FechaDecision", fechaActual);
+                    cmd.Parameters.AddWithValue("@TratamientosRecomendados", datos.TratamientosRecomendados);
+                    cmd.Parameters.AddWithValue("@MedicamentosRecetados", datos.MedicamentosRecetados);
+                    cmd.Parameters.AddWithValue("@CambiosEstiloVida", datos.CambiosEstiloVida);
+                    cmd.Parameters.AddWithValue("@SeguimientoProximasCitas", datos.SeguimientoProximasCitas);
+                    cmd.ExecuteNonQuery();
+
+
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("Error al guardar Decisiones clinicas.");
+                }
+                conectar.InicioDesconexion();
+
+            }
+
+            return RedirectToAction("DecisionesClinicas", "Detallesvistas", new { id = datos.PacienteID, pagina = "1", name = datos.name });
 
         }
 
@@ -631,6 +859,45 @@ namespace softwareDeGestión.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
+
+        }
+        //--------------------//-----------------------//
+        //Guardar NEW datos Historial medico
+        //-------------------//-----------------------//
+        [HttpPost]
+        public IActionResult Guardarhmedico(HistorialMedico datos)
+        {
+
+            if (ModelState.IsValid)
+            {
+
+                conectar.InicioConexion();
+                try
+                {
+                    DateTime fechaActual = DateTime.Now;
+                    string query = "INSERT INTO historial_medico (PacienteID, FechaConsulta, Peso, Altura, TipoDiabetes, PresionArterial,AntecedentesFamiliares,OtrosAntecedentes) VALUES (@PacienteID, @FechaConsulta, @Peso, @Altura, @TipoDiabetes, @PresionArterial, @AntecedentesFamiliares, @OtrosAntecedentes);";
+                    SqlCommand cmd = new SqlCommand(query, conectar.conectar);
+
+                    cmd.Parameters.AddWithValue("@PacienteID", datos.PacienteID);
+                    cmd.Parameters.AddWithValue("@FechaConsulta", fechaActual);
+                    cmd.Parameters.AddWithValue("@Peso", datos.Peso);
+                    cmd.Parameters.AddWithValue("@Altura", datos.Altura);
+                    cmd.Parameters.AddWithValue("@TipoDiabetes", datos.TipoDiabetes);
+                    cmd.Parameters.AddWithValue("@PresionArterial", datos.PresionArterial);
+                    cmd.Parameters.AddWithValue("@AntecedentesFamiliares", datos.AntecedentesFamiliares);
+                    cmd.Parameters.AddWithValue("@OtrosAntecedentes", datos.OtrosAntecedentes);
+                    cmd.ExecuteNonQuery();
+
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("Error al guardar Historial Medico.");
+                }
+                conectar.InicioDesconexion();
+
+            }
+
+            return RedirectToAction("HistorialMedico", "Detallesvistas", new { id = datos.PacienteID, pagina = "1", name = datos.name });
 
         }
 

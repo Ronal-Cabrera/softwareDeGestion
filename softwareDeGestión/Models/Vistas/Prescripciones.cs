@@ -10,9 +10,16 @@ namespace softwareDeGestión.Models.Vistas
 
         public int? PrescripcionID { get; set; }
         public int? PacienteID { get; set; }
-        public int? MedicamentoID { get; set; }
-        public string? NombreMedicamento { get; set; }
+        public string? name { get; set; }
 
+        [Required(ErrorMessage = "Dato requerido.")]
+        public int? MedicamentoID { get; set; }
+
+
+        public string? NombreMedicamento { get; set; }
+        public string? DescripcionMedicamento { get; set; }
+        public string? InstruccionesUso { get; set; }
+        public string? EfectosSecundarios { get; set; }
 
         public string? FechaPrescripcion { get; set; }
 

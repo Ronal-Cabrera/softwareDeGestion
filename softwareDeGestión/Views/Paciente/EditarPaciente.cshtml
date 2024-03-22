@@ -45,6 +45,6 @@
 
 
         <button type="submit" class="btn btn-primary"><i class="bi bi-save"></i> Guardar</button>
-        <a class="btn bg-secondary float-end text-white" asp-controller="Paciente" asp-action="Pacientes"><i class="bi bi-arrow-90deg-left"></i> Regresar</a>
+        <a href="@Url.Action("DetallesPaciente", "Detallesvistas", new { id = @ViewBag.MiArray[0][0] })" class="btn bg-secondary float-end text-white"><i class="bi bi-arrow-90deg-left"></i> Regresar</a>
     </form>
 </div>

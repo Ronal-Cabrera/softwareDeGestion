@@ -37,5 +37,6 @@ namespace softwareDeGestión.Models.Paciente
 
         public string? FechaIngreso { get; set; }
 
+
     }
 }

@@ -1,0 +1,45 @@
+﻿@model softwareDeGestión.Models.Vistas.FactoresRiesgo;
+
+@{
+    ViewData["Title"] = "Editar Factores riesgo";
+}
+
+<br />
+<br />
+
+<!-- Cuerpo del modal con el formulario -->
+<div class="container shadow p-5 bg-white">
+    <h3 class="text-center"><i class="bi bi-pen-fill"></i> Editar Factores Riesgo</h3>
+    <form asp-controller="Paciente" asp-action="Guardarupdateriesgo" method="post">
+        <input type="hidden" value="@ViewBag.MiArray[0][0]" asp-for="PacienteID" />
+        <div class="mb-3">
+            <label asp-for="HistorialFamiliarDiabetes" class="form-label">Historial Familiar Diabetes</label>
+            <input asp-for="HistorialFamiliarDiabetes" class="form-control" value="@ViewBag.MiArray[0][1]" placeholder="Ingrese Historial Familiar Diabetes">
+            <span asp-validation-for="HistorialFamiliarDiabetes" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="ActividadFisica" class="form-label">Actividad Fisica</label>
+            <input asp-for="ActividadFisica" class="form-control" value="@ViewBag.MiArray[0][2]" placeholder="Ingrese Actividad Fisica">
+            <span asp-validation-for="ActividadFisica" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="HabitosAlimenticios" class="form-label">Habitos Alimenticios</label>
+            <input asp-for="HabitosAlimenticios" class="form-control" value="@ViewBag.MiArray[0][3]" placeholder="Ingrese Habitos Alimenticios">
+            <span asp-validation-for="HabitosAlimenticios" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="NivelesEstres" class="form-label">Niveles Estres</label>
+            <input asp-for="NivelesEstres" class="form-control" value="@ViewBag.MiArray[0][4]" placeholder="Ingrese Niveles Estres">
+            <span asp-validation-for="NivelesEstres" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="OtrosFactores" class="form-label">Otros Factores</label>
+            <input asp-for="OtrosFactores" class="form-control" value="@ViewBag.MiArray[0][5]" placeholder="Ingrese Otros Factores">
+            <span asp-validation-for="OtrosFactores" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary"><i class="bi bi-save"></i> Guardar</button>
+        <a class="btn bg-secondary float-end text-white" href="@Url.Action("DetallesPaciente", "Detallesvistas", new { id = @ViewBag.MiArray[0][0] })"><i class="bi bi-arrow-90deg-left"></i> Regresar</a>
+    </form>
+</div>
+
