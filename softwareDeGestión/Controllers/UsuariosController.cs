@@ -30,7 +30,7 @@ namespace softwareDeGestión.Controllers
         //-------------------//-----------------------//
         public IActionResult Index(int? pagina)
         {
-            if (HttpContext.Session.GetString("UsuarioActual") != null)
+            if (HttpContext.Session.GetString("UsuarioActual") != null && HttpContext.Session.GetString("RolActual") == "Administrador")
             {
                 int numeroDePagina = pagina ?? 1;
             int registrosPorPagina = 50, totalPaginas = 0, total = 0;
@@ -112,116 +112,12 @@ namespace softwareDeGestión.Controllers
         }
 
 
-        /*
-        //--------------------//-----------------------//
-        //Eliminar Empleado
-        //-------------------//-----------------------//
-        [HttpPost]
-        public IActionResult Eliminaremp(int id)
-        {
-            conectar.InicioConexion();
-            try
-            {
-                string query = "DELETE FROM empleados WHERE EmpleadoID = @id";
-                SqlCommand comando = new SqlCommand(query, conectar.conectar);
-                comando.Parameters.AddWithValue("@id", id);
-                comando.ExecuteNonQuery();
-            }
-            catch (Exception)
-            {
-                Console.WriteLine("Error al Eliminar.");
-            }
-
-            conectar.InicioDesconexion();
-
-            return RedirectToAction("Empleados", "Usuarios"); // Puedes redirigir a la acción Index u otra página según tu aplicación.
-        }
-
-
-        */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        /*
-        //--------------------//-----------------------//
-        //Cargar vista y lista Empleados
-        //-------------------//-----------------------//
-        public IActionResult Empleados(int? pagina)
-        {
-            int numeroDePagina = pagina ?? 1;
-            int registrosPorPagina = 5, totalPaginas = 0, total = 0;
-
-            try { 
-            string queryTotal = "select COUNT(*) as total from empleados";
-            conectar.InicioConexion();
-            SqlCommand comando2 = new SqlCommand(queryTotal, conectar.conectar);
-            using (SqlDataReader reader = comando2.ExecuteReader())
-            {
-                reader.Read();
-                total = Convert.ToInt32(reader["total"]);
-            }
-            conectar.InicioDesconexion();
-
-
-            if (total > registrosPorPagina)
-            {
-                /////total paginas
-                double numero_total_productos = total;
-                double resultado_divicion = numero_total_productos / 5.0;
-                double resultadoRedondeado = Math.Ceiling(resultado_divicion);
-                totalPaginas = (int)resultadoRedondeado;
-            }
-            else
-            {
-                totalPaginas = 1;
-            }
-
-            int? indicador_fila = registrosPorPagina * (numeroDePagina - 1);
-
-            string query = "SELECT * FROM empleados ORDER BY EmpleadoID OFFSET " + indicador_fila + " ROWS FETCH NEXT " + registrosPorPagina + " ROWS ONLY";
-
-            conectar.InicioConexion();
-
-                SqlCommand comando = new SqlCommand(query, conectar.conectar);
-                SqlDataAdapter informacionPE = new SqlDataAdapter();
-                informacionPE.SelectCommand = comando;
-
-                DataTable tablaPE = new DataTable();
-                informacionPE.Fill(tablaPE);
-
-
-                conectar.InicioDesconexion();
-                ViewBag.PaginaActual = numeroDePagina;
-                ViewBag.TotalPaginas = totalPaginas;
-
-                return View(tablaPE);
-            }
-            catch (Exception)
-            {
-                return View();
-            }
-        }
-        */
-
         //--------------------//-----------------------//
         //Cargar vista FORMULARIO nuevo USUARIO
         //-------------------//-----------------------//
         public IActionResult NuevoUsuario()
         {
-            if (HttpContext.Session.GetString("UsuarioActual") != null)
+            if (HttpContext.Session.GetString("UsuarioActual") != null && HttpContext.Session.GetString("RolActual") == "Administrador")
             {
                 List<List<string>> miArray = new List<List<string>>();
 
@@ -330,7 +226,7 @@ namespace softwareDeGestión.Controllers
         //-------------------//-----------------------//
         public IActionResult EditarUsuario(int id)
         {
-            if (HttpContext.Session.GetString("UsuarioActual") != null)
+            if (HttpContext.Session.GetString("UsuarioActual") != null && HttpContext.Session.GetString("RolActual") == "Administrador")
             {
                 List<List<string>> miArrayUE = new List<List<string>>();
 
@@ -439,7 +335,7 @@ namespace softwareDeGestión.Controllers
         }
 
         //--------------------//-----------------------//
-        //Guardar datos de FORMULARIO editar USUARIO
+        //Guardar datos de FORMULARIO editar Password
         //-------------------//-----------------------//
         [HttpPost]
         public IActionResult Guardarupdatepass(int id, string cambio)

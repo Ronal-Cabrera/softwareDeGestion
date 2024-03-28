@@ -30,6 +30,6 @@ namespace softwareDeGestión.Models.Vistas
         public string? OtrosResultados { get; set; }
 
 
-        //public IFormFile? FileUpload { get; set; }
+        public IFormFile? FileUpload { get; set; }
     }
 }

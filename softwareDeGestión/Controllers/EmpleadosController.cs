@@ -36,7 +36,7 @@ namespace softwareDeGestión.Controllers
         //-------------------//-----------------------//
         public IActionResult Empleados(int? pagina)
         {
-            if (HttpContext.Session.GetString("UsuarioActual") != null)
+            if (HttpContext.Session.GetString("UsuarioActual") != null && HttpContext.Session.GetString("RolActual") == "Administrador")
             {
                 int numeroDePagina = pagina ?? 1;
             int registrosPorPagina = 50, totalPaginas = 0, total = 0;
@@ -103,7 +103,7 @@ namespace softwareDeGestión.Controllers
         //-------------------//-----------------------//
         public IActionResult NuevoEmpleado()
         {
-            if (HttpContext.Session.GetString("UsuarioActual") != null)
+            if (HttpContext.Session.GetString("UsuarioActual") != null && HttpContext.Session.GetString("RolActual") == "Administrador")
             {
                 return View();
             }
@@ -118,7 +118,7 @@ namespace softwareDeGestión.Controllers
         //-------------------//-----------------------//
         public IActionResult EditarEmpleado(int id)
         {
-            if (HttpContext.Session.GetString("UsuarioActual") != null)
+            if (HttpContext.Session.GetString("UsuarioActual") != null && HttpContext.Session.GetString("RolActual") == "Administrador")
             {
                 List<List<string>> miArray = new List<List<string>>();
 

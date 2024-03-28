@@ -75,9 +75,14 @@
                             </li>
                      
                     </ul>
-                        <span class="navbar-text mx-2">
-                            <a class="nav-link text-dark p-0 m-0" asp-area="" asp-controller="Usuarios" asp-action="Index"><strong> <i class="bi bi-person-circle"></i> Usuarios</strong></a>
-                        </span>
+
+                        @if (ViewData["RolActual"] != null && ViewData["RolActual"]?.ToString() == "Administrador")
+                        {
+                            <span class="navbar-text mx-2">
+                                <a class="nav-link text-dark p-0 m-0" asp-area="" asp-controller="Usuarios" asp-action="Index"><strong> <i class="bi bi-person-circle"></i> Usuarios</strong></a>
+                            </span>
+                        }
+
                         <span class="navbar-text mx-2">
                             <a class="nav-link p-0 rounded m-0 bg-white px-2 text-black" asp-area="" asp-controller="Home" asp-action="CerrarSesion"><strong> <i class="bi bi-box-arrow-left"></i> Cerrar Session</strong></a>
                         </span>

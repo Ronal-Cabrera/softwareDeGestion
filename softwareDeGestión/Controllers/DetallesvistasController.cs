@@ -42,6 +42,7 @@ namespace softwareDeGestión.Controllers
                 // Recuperar el nombre de usuario de la sesión
                 string? usuarioActual = HttpContext.Session.GetString("UsuarioActual");
                 ViewData["UsuarioActual"] = usuarioActual;
+                ViewData["RolActual"] = HttpContext.Session.GetString("RolActual");
 
 
                 List<List<string>> miArrayUE = new List<List<string>>();
@@ -205,31 +206,10 @@ namespace softwareDeGestión.Controllers
                 conectar.InicioConexion();
                 try
                 {
-                    /*
-                    if (FileUpload != null && FileUpload.Length > 0)
-                    {
-                        if (FileUpload.FileName.EndsWith(".pdf", System.StringComparison.OrdinalIgnoreCase))
-                        {
-                            var uploadsPath = Path.Combine(_hostingEnvironment.WebRootPath, "pdf");
-
-                            if (!Directory.Exists(uploadsPath))
-                            {
-                                Directory.CreateDirectory(uploadsPath);
-                            }
-
-                            var filePath = Path.Combine(uploadsPath, FileUpload.FileName);
-                            using (var stream = new FileStream(filePath, FileMode.Create))
-                            {
-                                FileUpload.CopyTo(stream);
-                            }
-                        }
-
-                    }
-                    */
-
+                    var namePDF = "";
 
                     DateTime fechaActual = DateTime.Now;
-                    string query = "INSERT INTO resultados_laboratorio (PacienteID, FechaControl, NivelGlucosa, Comentarios, OtrosResultados) VALUES (@PacienteID, @FechaControl, @NivelGlucosa, @Comentarios, @OtrosResultados);";
+                    string query = "INSERT INTO resultados_laboratorio (PacienteID, FechaControl, NivelGlucosa, Comentarios, OtrosResultados) VALUES (@PacienteID, @FechaControl, @NivelGlucosa, @Comentarios, @OtrosResultados); SELECT SCOPE_IDENTITY();";
                     SqlCommand cmd = new SqlCommand(query, conectar.conectar);
 
                     cmd.Parameters.AddWithValue("@PacienteID", datos.PacienteID);
@@ -237,7 +217,28 @@ namespace softwareDeGestión.Controllers
                     cmd.Parameters.AddWithValue("@NivelGlucosa", datos.NivelGlucosa);
                     cmd.Parameters.AddWithValue("@Comentarios", datos.Comentarios);
                     cmd.Parameters.AddWithValue("@OtrosResultados", datos.OtrosResultados);
-                    cmd.ExecuteNonQuery();
+                    namePDF = cmd.ExecuteScalar().ToString();
+
+                    if (datos.FileUpload != null && datos.FileUpload.Length > 0)
+                    {
+                        if (datos.FileUpload.FileName.EndsWith(".pdf", System.StringComparison.OrdinalIgnoreCase))
+                        {
+                            var uploadsPath = Path.Combine(_hostingEnvironment.WebRootPath, "pdf");
+                            var nPDF = namePDF + ".pdf";
+
+                            if (!Directory.Exists(uploadsPath))
+                            {
+                                Directory.CreateDirectory(uploadsPath);
+                            }
+
+                            var filePath = Path.Combine(uploadsPath, nPDF);
+                            using (var stream = new FileStream(filePath, FileMode.Create))
+                            {
+                                datos.FileUpload.CopyTo(stream);
+                            }
+                        }
+
+                    }
 
                 }
                 catch (Exception e)
@@ -250,6 +251,16 @@ namespace softwareDeGestión.Controllers
             return RedirectToAction("ResultadosLaboratorio", "Detallesvistas", new { id = datos.PacienteID, pagina = "1", name = datos.name });
 
         }
+
+        public IActionResult MostrarPDF(string? pdf)
+        {
+            string nombreArchivo = pdf + ".pdf"; // Nombre del archivo PDF
+            string rutaArchivo = "/pdf/" + nombreArchivo;
+            ViewData["RutaPDF"] = rutaArchivo.ToString();
+            return View();
+        }
+
+
 
 
         public IActionResult RegistroAlimentacion(int? id, int? pagina, string? name)
@@ -916,9 +927,10 @@ namespace softwareDeGestión.Controllers
                 // Recuperar el nombre de usuario de la sesión
                 string? usuarioActual = HttpContext.Session.GetString("UsuarioActual");
                 ViewData["UsuarioActual"] = usuarioActual;
-            
+                ViewData["RolActual"] = HttpContext.Session.GetString("RolActual");
 
-            int numeroDePagina = pagina ?? 1;
+
+                int numeroDePagina = pagina ?? 1;
             int registrosPorPagina = 5, totalPaginas = 0, total = 0;
 
             try

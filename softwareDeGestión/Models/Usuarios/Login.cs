@@ -19,36 +19,6 @@ namespace softwareDeGestión.Models.Usuarios
         public string? Contra { get; set; }
 
 
-        readonly ConexionDB conectar = new();
-        public string? VerificarUsuario(string? Usuario)
-        {
-            string? respuesta = null;
-
-            conectar.InicioConexion();
-            try
-            {
-                string query = "SELECT password_usuario FROM usuarios WHERE nombre_usuario = @Username";
-                using (SqlCommand command = new(query, conectar.conectar))
-                {
-                    command.Parameters.AddWithValue("@Username", Usuario);
-
-                    var result = command.ExecuteScalar();
-
-                    if (result != null)
-                    {
-                        respuesta = result.ToString();
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                respuesta = null;
-            }
-
-            conectar.InicioDesconexion();
-
-            return respuesta;
-        }
     }
 
 }

@@ -41,6 +41,7 @@ namespace softwareDeGestión.Controllers
                 // Recuperar el nombre de usuario de la sesión
                 string? usuarioActual = HttpContext.Session.GetString("UsuarioActual");
                 ViewData["UsuarioActual"] = usuarioActual;
+                ViewData["RolActual"] = HttpContext.Session.GetString("RolActual");
 
                 int numeroDePagina = pagina ?? 1;
                 int registrosPorPagina = 5, totalPaginas = 0, total = 0;
@@ -112,6 +113,7 @@ namespace softwareDeGestión.Controllers
                 // Recuperar el nombre de usuario de la sesión
                 string? usuarioActual = HttpContext.Session.GetString("UsuarioActual");
                 ViewData["UsuarioActual"] = usuarioActual;
+                ViewData["RolActual"] = HttpContext.Session.GetString("RolActual");
                 return View();
             }
             else

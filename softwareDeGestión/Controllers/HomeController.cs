@@ -7,6 +7,7 @@ using System.Reflection;
 
 
 using Microsoft.AspNetCore.Http;
+using System.Data.SqlClient;
 
 
 
@@ -26,7 +27,7 @@ namespace softwareDeGestión.Controllers
             _httpContextAccessor = httpContextAccessor;
         }
 
-        Login verificar = new Login();
+        readonly ConexionDB conectar = new();
 
         public IActionResult Index()
         {
@@ -56,28 +57,50 @@ namespace softwareDeGestión.Controllers
             if (ModelState.IsValid)
             {
                 string? usuario = datos.Usuario ?? string.Empty;
-                string contra = datos.Contra ?? string.Empty;
+                string? contra = datos.Contra ?? string.Empty;
+
+                string? Vcontra = "", Vusuario = "", Vid = "", Vrol = "";
 
                 // Crear una instancia del servicio PasswordHasher
                 IPasswordHasher<object> passwordHasher = new PasswordHasher<object>();
 
+                conectar.InicioConexion();
+                string query = "SELECT codigo_usuario, nombre_usuario, password_usuario, rol_usuario FROM usuarios WHERE nombre_usuario = @Username";
+                using (SqlCommand command = new(query, conectar.conectar))
+                {
+                    command.Parameters.AddWithValue("@Username", usuario);
 
-                string? respuesta = verificar.VerificarUsuario(usuario);
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            Vcontra = reader["password_usuario"].ToString();
+                            Vusuario = reader["nombre_usuario"].ToString();
+                            Vid = reader["codigo_usuario"].ToString();
+                            Vrol = reader["rol_usuario"].ToString();
+                            // Aquí puedes usar el valor del password_usuario como lo necesites
+                        }
+                    }
+                }
+                conectar.InicioDesconexion();
 
-                if (respuesta != null)
+
+                if (Vcontra != null)
                 {
 
                     // Verificar la contraseña encriptada
                     //var resultado = passwordHasher.VerifyHashedPassword("", respuesta, contra);
                     // Verificación de contraseñas
-                    bool isPasswordValid = BCrypt.Net.BCrypt.Verify(contra, respuesta);
+                    bool isPasswordValid = BCrypt.Net.BCrypt.Verify(contra, Vcontra);
 
                     // El resultado indica si la verificación fue exitosa
                     if (isPasswordValid)
                     {
-                        if (_httpContextAccessor.HttpContext != null)
+                        if (_httpContextAccessor.HttpContext != null && Vusuario != null && Vrol != null && Vid != null)
                         {
-                            _httpContextAccessor.HttpContext.Session.SetString("UsuarioActual", usuario);
+                            _httpContextAccessor.HttpContext.Session.SetString("UsuarioActual", Vusuario);
+                            _httpContextAccessor.HttpContext.Session.SetString("RolActual", Vrol);
+                            _httpContextAccessor.HttpContext.Session.SetString("IdActual", Vid);
                         }
                         return RedirectToAction("Pacientes", "Paciente");
                     }
@@ -89,12 +112,49 @@ namespace softwareDeGestión.Controllers
             return View("Index");
         }
 
+        public string? VerificarUsuario(string? Usuario)
+        {
+            string? respuesta = null;
+
+            conectar.InicioConexion();
+            try
+            {
+                string query = "SELECT codigo_usuario, nombre_usuario, password_usuario, rol_usuario FROM usuarios WHERE nombre_usuario = @Username";
+                using (SqlCommand command = new(query, conectar.conectar))
+                {
+                    command.Parameters.AddWithValue("@Username", Usuario);
+
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            respuesta = reader["password_usuario"].ToString();
+                            // Aquí puedes usar el valor del password_usuario como lo necesites
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                respuesta = null;
+            }
+
+            conectar.InicioDesconexion();
+
+            return respuesta;
+        }
+       
+
+
+
         public IActionResult CerrarSesion()
         {
             if (_httpContextAccessor.HttpContext != null)
             {
                 // Eliminar la variable de sesión
                 _httpContextAccessor.HttpContext.Session.Remove("UsuarioActual");
+                _httpContextAccessor.HttpContext.Session.Remove("RolActual");
+                _httpContextAccessor.HttpContext.Session.Remove("IdActual");
             }
 
             return RedirectToAction("Index", "Home");

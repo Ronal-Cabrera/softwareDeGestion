@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Historial Medico.";
+    string? rutaPDF = ViewData["RutaPDF"] as string;
 }
 
 <p class="mt-2 detalles"><strong>Total Paginas:</strong> @ViewBag.TotalPaginas, <strong>Datos por tabla:</strong> @ViewBag.DatosTabla1.Count</p>
@@ -142,4 +143,14 @@
     </table>
 
 </div>
+
+@if (!string.IsNullOrEmpty(rutaPDF))
+{
+    <embed src="@rutaPDF" type="application/pdf" width="100%" height="600px" />
+}
+else
+{
+    <p>No se encontró el archivo PDF.</p>
+}
+
 

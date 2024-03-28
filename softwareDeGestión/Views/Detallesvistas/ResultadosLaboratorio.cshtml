@@ -42,7 +42,7 @@
                 <h1 class="modal-title text-center fs-5" id="exampleModalLabel"><i class="bi bi-file-earmark-plus"></i> Agregar historial medico</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form asp-controller="Detallesvistas" asp-action="Guardarrlaboratorio" method="post">
+            <form asp-controller="Detallesvistas" enctype="multipart/form-data" asp-action="Guardarrlaboratorio" method="post">
                 <input type="hidden" asp-for="PacienteID" value="@ViewBag.id" />
                 <input type="hidden" asp-for="name" value="@ViewBag.name" />
                 <div class="modal-body">
@@ -62,13 +62,13 @@
                         <input asp-for="OtrosResultados" class="form-control" id="otros">
                         <span asp-validation-for="OtrosResultados" class="text-danger"></span>
                     </div>
-                    <!----
+                    
                     <div class="mb-2">
                         <label for="pdf" class="form-label">Archivo</label>
-                        <input asp-for="FileUpload" accept="application/pdf" class="form-control" id="pdf">
+                        <input asp-for="FileUpload" accept=".pdf" class="form-control" id="pdf">
                         <span asp-validation-for="FileUpload" class="text-danger"></span>
                     </div>
-                    -->
+                    
                 </div>
 
                 <div class="modal-footer">
@@ -90,6 +90,7 @@
                 <th scope="col">Nivel glucosa</th>
                 <th scope="col">Comentarios</th>
                 <th scope="col">Otros resultados</th>
+                <th style="width:100px;"></th>
                 <!--
                 <th style="width:100px;"></th>
                 <th style="width:100px;"></th>
@@ -105,6 +106,9 @@
                     <td>@ViewBag.DatosTabla1[index].NivelGlucosa</td>
                     <td>@ViewBag.DatosTabla1[index].Comentarios</td>
                     <td>@ViewBag.DatosTabla1[index].OtrosResultados</td>
+                    <td style="width:100px;">
+                        <a target="_blank" href="@Url.Action("MostrarPDF", "DetallesVistas", new { pdf = ViewBag.DatosTabla1[index].ResultadoID })" class="btn btn-success">pdf</a>
+                    </td>
                     <!--
                     <td style="width:100px;">
                         <a href="@Url.Action("EditarUsuario", "Usuarios", new { id = ViewBag.DatosTabla1[index].ResultadoID })" class="btn btn-success">Editar</a>
